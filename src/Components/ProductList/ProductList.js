@@ -57,7 +57,10 @@ class ProductList extends Component {
 
     }
 
-    /* Extract parameter with given name from query string. */
+    /* 
+     * Extract parameter with given name from query string.
+     * If newProps is provided, query string is taken from newProps, otherwise from current props.
+     */
     getParamFromURL(name, newProps) {
         let qs = queryString.parse(newProps ? newProps.location.search : this.props.location.search);
 
