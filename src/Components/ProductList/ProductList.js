@@ -204,6 +204,7 @@ class ProductList extends Component {
                     onChange={(min, max) => this.setState({ minDraft: min, maxDraft: max, isDraft: true })}
                     onSave={() => {
                         if (this.state.isDraft) {
+                            /* If we get here, user is trying to save the draft price. */
                             this.setState({ isDraft: false })
                             this.updateURL({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft });
                         }
