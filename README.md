@@ -5,7 +5,7 @@ This is an online shop prototype (front end) implemented using React, Redux and 
 <img src="https://raw.githubusercontent.com/giorgi-m/online-shop/master/src/Images/scrn.gif" width="820" height="420">
  
 
-Some features it has
+Some features:
 - search using keyword and category
 - quick access to categories
 - price filters, sorting
