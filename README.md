@@ -6,7 +6,7 @@ This is an online shop prototype (front end) implemented using React, Redux and 
  
 
 Some features it has
-- searching using keyword based on categories
+- search using keyword and category
 - quick access to categories
 - price filters, sorting
 - shopping cart
