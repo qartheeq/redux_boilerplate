@@ -24,8 +24,12 @@ class ConnectedDetails extends Component {
     fetch(id) {
  
         this.setState({ loading: true })
+        
+        /* First, let's get the item */
         Api.getItemUsingID(id).then((data) => {
             this.setState({ item: data })
+            
+            /* Now, get related items */
             return Api.searchData({ category: data.category })
         }).then((res) => {
             this.setState((ps) => {
