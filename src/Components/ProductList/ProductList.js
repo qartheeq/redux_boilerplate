@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PriceDialog from '../PriceDialog/PriceDialog';
 
 /*
- * Initially when this component is rendered is consults the query
+ * Initially when this component is rendered it consults the query
  * string on which products to retrieve and then does a simulated
  * request to server based on that; it repeats this action also on any props change.
  * 
