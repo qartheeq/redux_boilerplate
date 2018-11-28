@@ -12,10 +12,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PriceDialog from '../PriceDialog/PriceDialog';
 
 /*
- * Initially when this component is rendered it consults the query
- * string on which products to retrieve and then does a simulated
- * request to server based on that; it repeats this action also on any props change.
- * 
+ * This component is responsible for retrieving the products it needs to show.
+ * The kind of products it needs to retrieve it detects from query string (e.g. products from some category only, etc.).
+ * This component does this on first render and on any props change.
+ *
  */
 class ProductList extends Component {
 
@@ -48,7 +48,13 @@ class ProductList extends Component {
         return query;
     }
 
-    /* Update existing URL with new parameters contained within passed object. */
+    /* 
+     * Update existing URL with new parameters contained within passed object.
+     * We use this function when for example user changes the sorting value,
+     * this means the new sorting value must be embedded in query string however,
+     * other values in query sting must also be retained.
+     *
+     */
     updateURL(newObject) {
 
         let qs = queryString.parse(this.props.location.search);
@@ -94,6 +100,7 @@ class ProductList extends Component {
 
         let id = this.fetchId;
 
+        /* Make simulated request to server to get products */
         Api.searchData({
             category: this.getParamFromURL("category", newProps),
             term: this.getParamFromURL("term", newProps),
