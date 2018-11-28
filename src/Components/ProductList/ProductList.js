@@ -59,6 +59,8 @@ class ProductList extends Component {
 
         let qs = queryString.parse(this.props.location.search);
         let newUrl = { ...qs, ...newObject };
+        
+        /* Redirect to the new URL */
         this.props.history.push('/search/?' + this.objectToQueryString(newUrl));
 
     }
