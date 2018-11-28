@@ -51,7 +51,7 @@ class ProductList extends Component {
     /* 
      * Update existing URL with new parameters contained within passed object.
      * We use this function when for example user changes the sorting value,
-     * this means the new sorting value must be embedded in query string however,
+     * this means the new sorting value must be embedded in query string, however,
      * other values in query sting must also be retained.
      *
      */
