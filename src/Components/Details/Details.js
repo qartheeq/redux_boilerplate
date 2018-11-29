@@ -119,8 +119,7 @@ class ConnectedDetails extends Component {
                             {this.state.relatedItems.map((item) => {
                                 return (
                                     <Item
-                                        mini={true}
-                                        key={item.id}
+                                         key={item.id}
                                         item={item}
                                     />
                                 )

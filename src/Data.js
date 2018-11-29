@@ -103,6 +103,17 @@ const sampleProducts = [
     popular: false,
     imageURL: "https://images-na.ssl-images-amazon.com/images/I/71qNNgYCHYL._SL1500_.jpg"
   },
+  {
+    id: 10,
+    name: "Swatch Blue Suit Mens Watch YGS747 Wrist Watch",
+    category: "Jewelry and Watches",
+    price: 120,
+    description: "",
+    inStock: true,
+
+    popular: false,
+    imageURL: "https://images-na.ssl-images-amazon.com/images/I/418I4xAlUHL.jpg"
+  },
 ]
 
 /* Available categories */
