@@ -19,15 +19,9 @@ import PriceDialog from '../PriceDialog/PriceDialog';
  */
 class ProductList extends Component {
 
-    constructor(props) {
-        super(props);
-
-        /* We use this to avoid some race condition related issues, see below. */
-        this.fetchId = 0;
-    }
-
+   
     state = {
-        loading: false,
+        unfinishedTasks: false,
         openPriceDialog: false,
         minDraft: null,
         maxDraft: null,
@@ -96,11 +90,8 @@ class ProductList extends Component {
 
     fetchData(newProps) {
 
-        this.setState({ loading: true })
+        this.setState((ps)=>({ unfinishedTasks: ps.unfinishedTasks+1 }))
 
-        this.fetchId++;
-
-        let id = this.fetchId;
 
         /* Make simulated request to server to get products */
         Api.searchData({
@@ -111,15 +102,7 @@ class ProductList extends Component {
             sortValue: this.getParamFromURL("sortValue", newProps),
             usePriceFilter: this.getParamFromURL("usePriceFilter", newProps),
         }).then((data) => {
-
-            /* 
-             * Without this check if user made one request and then quickly
-             * another, you would temporarily see results from first request
-             * on screen anyway.
-             */
-            if (id !== this.fetchId) return;
-
-            this.setState({ loading: false, items: data })
+            this.setState((ps)=>({items: data , unfinishedTasks: ps.unfinishedTasks-1 }))
         })
 
     }
@@ -195,7 +178,7 @@ class ProductList extends Component {
                     </div>
                 </div>
                 <div>
-                    {this.state.loading ?
+                    {this.state.unfinishedTasks!==0 ?
                         <CircularProgress className="circular" /> :
                         this.state.items.map(item => {
                             return (

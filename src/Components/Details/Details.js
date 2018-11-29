@@ -18,12 +18,12 @@ class ConnectedDetails extends Component {
     state = {
         relatedItems: [],
         item: null,
-        loading: true,
+        unfinishedTasks: 0,
     }
 
     fetch(id) {
  
-        this.setState({ loading: true })
+        this.setState((ps)=>({ unfinishedTasks: ps.unfinishedTasks+1 }))
         
         /* First, let's get the item */
         Api.getItemUsingID(id).then((data) => {
@@ -34,7 +34,7 @@ class ConnectedDetails extends Component {
         }).then((res) => {
             this.setState((ps) => {
                 return {
-                    loading: false,
+                    unfinishedTasks: ps.unfinishedTasks-1,
                     relatedItems: res.filter((x, i) => x.id !== ps.item.id && i < 10)
                 }
             })
@@ -70,9 +70,8 @@ class ConnectedDetails extends Component {
             slidesToScroll: 1
         };
 
-
         /* If data hasn't arrived, yet, only show progress control. */
-        if (this.state.loading) {
+        if (this.state.unfinishedTasks!==0 || !this.state.item) {
             return (<CircularProgress className="circular" />)
         }
 
