@@ -13,8 +13,8 @@ import PriceDialog from '../PriceDialog/PriceDialog';
 
 /*
  * This component is responsible for retrieving the products it needs to show.
- * The kind of products it needs to retrieve it detects from query string (e.g. products from some category only, etc.).
- * This component does this on first render and on any props change.
+ * It determines the kind of products it needs to show from query string.
+ * It checks the query string on first render and on every props change.
  *
  */
 class ProductList extends Component {
@@ -43,10 +43,10 @@ class ProductList extends Component {
     }
 
     /* 
-     * Update existing URL with new parameters contained within passed object.
+     * Update existing URL with parameters from newObject.
      * We use this function when for example user changes the sorting value,
      * this means the new sorting value must be embedded in query string, however,
-     * other values in query sting must also be retained.
+     * other (old) values in query string must also be retained.
      *
      */
     updateURL(newObject) {
