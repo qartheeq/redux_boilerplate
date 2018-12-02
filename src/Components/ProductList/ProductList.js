@@ -49,7 +49,7 @@ class ProductList extends Component {
      * other (old) values in query string must also be retained.
      *
      */
-    updateURL(newObject) {
+    updateURLAndRedirect(newObject) {
 
         let qs = queryString.parse(this.props.location.search);
         let newUrl = { ...qs, ...newObject };
@@ -61,10 +61,10 @@ class ProductList extends Component {
 
     /* 
      * Extract parameter with given name from query string.
-     * If newProps is provided, query string is taken from newProps, otherwise from current props.
+     * The query string itself is contained in passed props object.
      */
-    getParamFromURL(name, newProps) {
-        let qs = queryString.parse(newProps ? newProps.location.search : this.props.location.search);
+    getParamFromProps(name, props = this.props) {
+        let qs = queryString.parse(props.location.search);
 
         switch (name) {
             case 'category':
@@ -88,19 +88,19 @@ class ProductList extends Component {
     }
 
 
-    fetchData(newProps) {
+    fetchData(props = this.props) {
 
         this.setState((ps)=>({ unfinishedTasks: ps.unfinishedTasks+1 }))
 
 
         /* Make simulated request to server to get products */
         Api.searchData({
-            category: this.getParamFromURL("category", newProps),
-            term: this.getParamFromURL("term", newProps),
-            minPrice: this.getParamFromURL("minPrice", newProps),
-            maxPrice: this.getParamFromURL("maxPrice", newProps),
-            sortValue: this.getParamFromURL("sortValue", newProps),
-            usePriceFilter: this.getParamFromURL("usePriceFilter", newProps),
+            category: this.getParamFromProps("category", props),
+            term: this.getParamFromProps("term", props),
+            minPrice: this.getParamFromProps("minPrice", props),
+            maxPrice: this.getParamFromProps("maxPrice", props),
+            sortValue: this.getParamFromProps("sortValue", props),
+            usePriceFilter: this.getParamFromProps("usePriceFilter", props),
         }).then((data) => {
             this.setState((ps)=>({items: data , unfinishedTasks: ps.unfinishedTasks-1 }))
         })
@@ -116,16 +116,16 @@ class ProductList extends Component {
     }
 
     handleSortChange = (e) => {
-        this.updateURL({ sortValue: e.value })
+        this.updateURLAndRedirect({ sortValue: e.value })
     }
 
     /* Determine page title */
     pageTitle() {
         let pageTitle;
-        if (this.getParamFromURL("category") === "popular") {
+        if (this.getParamFromProps("category") === "popular") {
             pageTitle = "Popular products";
-        } else if (this.getParamFromURL("directCategory")) {
-            pageTitle = this.getParamFromURL("category");
+        } else if (this.getParamFromProps("directCategory")) {
+            pageTitle = this.getParamFromProps("category");
         } else {
             pageTitle = "Search results";
         }
@@ -148,17 +148,17 @@ class ProductList extends Component {
                                     { value: 'hl', label: 'Sort by price: High to Low' },
                                 ]}
                                 className='react-dropdown'
-                                onChange={this.handleSortChange} value={this.getParamFromURL("sortValue")} />
+                                onChange={this.handleSortChange} value={this.getParamFromProps("sortValue")} />
                         </div>
 
-                        {this.getParamFromURL("usePriceFilter") &&
+                        {this.getParamFromProps("usePriceFilter") &&
                             <Tooltip title="Click to change range" disableFocusListener >
                                 <Button
                                     variant="outlined"
                                     style={{ marginRight: 20, height: 10 }}
                                     onClick={() => {
                                         this.setState({ openPriceDialog: true })
-                                    }}>{this.getParamFromURL("minPrice") + "$ - " + this.getParamFromURL("maxPrice") + "$"}
+                                    }}>{this.getParamFromProps("minPrice") + "$ - " + this.getParamFromProps("maxPrice") + "$"}
                                 </Button>
                             </Tooltip>}
                         <FormControlLabel
@@ -166,10 +166,10 @@ class ProductList extends Component {
                             control={
                                 <Checkbox
                                     color="primary"
-                                    checked={this.getParamFromURL("usePriceFilter")}
+                                    checked={this.getParamFromProps("usePriceFilter")}
                                     style={{ marginBottom: 5 }}
                                     onChange={(e) => {
-                                        this.updateURL({ usePriceFilter: e.target.checked })
+                                        this.updateURLAndRedirect({ usePriceFilter: e.target.checked })
                                     }}
                                 />
                             }
@@ -191,14 +191,14 @@ class ProductList extends Component {
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}
-                    min={this.state.isDraft ? this.state.minDraft : this.getParamFromURL("minPrice")}
-                    max={this.state.isDraft ? this.state.maxDraft : this.getParamFromURL("maxPrice")}
+                    min={this.state.isDraft ? this.state.minDraft : this.getParamFromProps("minPrice")}
+                    max={this.state.isDraft ? this.state.maxDraft : this.getParamFromProps("maxPrice")}
                     onChange={(min, max) => this.setState({ minDraft: min, maxDraft: max, isDraft: true })}
                     onSave={() => {
                         if (this.state.isDraft) {
                             /* If we get here, user is trying to save the draft price. */
                             this.setState({ isDraft: false })
-                            this.updateURL({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft });
+                            this.updateURLAndRedirect({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft });
                         }
                         this.setState({ openPriceDialog: false })
                     }}
