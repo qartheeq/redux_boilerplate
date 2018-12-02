@@ -114,7 +114,17 @@ const sampleProducts = [
     popular: false,
     imageURL: "https://images-na.ssl-images-amazon.com/images/I/418I4xAlUHL.jpg"
   },
-]
+  {
+    id: 11,
+    name: "DELL 23 S2340L 1920X1080 FULL HD",
+    category: "Computers",
+    price: 220,
+    description: "This Certified Refurbished product is tested and certified to look and work like new. The refurbishing process includes functionality testing, basic cleaning, inspection, and repackaging. The product ships with all relevant accessories, a minimum 90-day warranty, and may arrive in a generic box. Only select sellers who maintain a high performance bar may offer Certified Refurbished products on Amazon.com",
+    inStock: true,
+    popular: false,
+    imageURL: "https://images-na.ssl-images-amazon.com/images/I/61NAgk5KMHL._SL1500_.jpg"
+  },
+];
 
 /* Available categories */
 const categories = ['All categories', 'Clothing and Shoes', 'Books', 'Jewelry and Watches', 'Computers', "Home"]

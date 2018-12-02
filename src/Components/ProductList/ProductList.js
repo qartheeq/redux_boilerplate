@@ -27,6 +27,8 @@ class ProductList extends Component {
         minDraft: null,
         maxDraft: null,
         isDraft: false,
+        itemsPerPage: null,
+        wholeDataLength: null,
         items: []
     }
 
@@ -44,21 +46,19 @@ class ProductList extends Component {
     }
 
     /* 
-     * Update existing URL with parameters from newObject.
-     * We use this function when for example user changes the sorting value,
-     * this means the new sorting value must be embedded in query string, however,
-     * other (old) values in query string must also be retained.
-     *
+     * Update existing query string with parameters from newValues and redirect to that URL.
+     * If parameter: restartPaging is true, we will remove element "page" from query string.
      */
-    updateURLAndRedirect(newObject, restartPaging) {
+    updateURLAndRedirect(newValues, restartPaging) {
 
-        let qs = queryString.parse(this.props.location.search);
-        let newUrl = { ...qs, ...newObject };
+        let currentQs = queryString.parse(this.props.location.search);
+        let newQS = { ...currentQs, ...newValues };
 
-        if (restartPaging) delete newUrl["page"];
+        if (restartPaging) {
+            delete newQS["page"];
+        }
 
-        /* Redirect to the new URL */
-        this.props.history.push('/search/?' + this.objectToQueryString(newUrl));
+        this.props.history.push('/search/?' + this.objectToQueryString(newQS));
 
     }
 
@@ -97,7 +97,6 @@ class ProductList extends Component {
 
         this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
 
-
         /* Make simulated request to server to get products */
         Api.searchData({
             category: this.getParamFromProps("category", props),
@@ -109,10 +108,11 @@ class ProductList extends Component {
             usePriceFilter: this.getParamFromProps("usePriceFilter", props),
         }).then((data) => {
             this.setState((ps) => ({
-                 items: data.data, 
-                 unfinishedTasks: ps.unfinishedTasks - 1,
-                 itemsPerPage: data.itemsPerPage,
-                 wholeDataLength: data.totalLength }))
+                items: data.data,
+                unfinishedTasks: ps.unfinishedTasks - 1,
+                itemsPerPage: data.itemsPerPage,
+                wholeDataLength: data.totalLength
+            }))
         })
 
     }
@@ -143,8 +143,9 @@ class ProductList extends Component {
     }
 
     render() {
- 
-        let totalPages = Math.floor(this.state.wholeDataLength / this.state.itemsPerPage) + ((this.state.wholeDataLength % this.state.itemsPerPage == 0 && this.state.wholeDataLength !== 0) ? 0 : 1);
+
+        /* Compute total number of pages. */
+        let totalPages = Math.ceil(this.state.wholeDataLength / this.state.itemsPerPage);
 
         return (
             <div className="product-list">
@@ -188,7 +189,7 @@ class ProductList extends Component {
                         />
                     </div>
                 </div>
-                <div style={{ flex:1, display: "flex", flexDirection: "column" }}>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
                     <div style={{ flex: 1 }}>
                         {this.state.unfinishedTasks !== 0 ?
                             <CircularProgress className="circular" /> :
@@ -201,35 +202,64 @@ class ProductList extends Component {
                                 )
                             })}
                     </div>
-                    {this.state.unfinishedTasks == 0 && <div style={{ height: 30, borderTop: "1px solid lightgray",  padding: 10 }}>
-                        <Button variant="outlined"
-                            disabled={this.getParamFromProps("page") == "1"}
-                            onClick={() => {
-                                let val = parseInt(this.getParamFromProps("page"), 0) - 1;
-                                this.updateURLAndRedirect({ page: val });
-                            }}
-                            style={{ marginRight: 10 }}>{"Previous"}</Button>
-                        Page:
-                        <TextField type="number"
-                            value={this.getParamFromProps("page")}
-                            style={{ width: 40, marginLeft: 5 }}
-                            onChange={(e) => {
-                                let val = e.target.value;
-                                if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1)
-                                    return;
-                                this.updateURLAndRedirect({ page: val });
+                    {/* Paging component */}
+                    {this.state.unfinishedTasks === 0 &&
+                        <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", height: 30, borderTop: "1px solid lightgray", padding: 10, display: "flex" }}>
+                            <div>
+                                <Button variant="outlined"
+                                    size="small"
+                                    color="primary"
+                                    disabled={this.getParamFromProps("page") === "1"}
+                                    onClick={() => {
+                                        this.updateURLAndRedirect({ page: 1 });
+                                    }}
+                                    style={{ marginRight: 10 }}>{"First"}</Button>
+                                <Button variant="outlined"
+                                    size="small"
+                                    color="primary"
+                                    disabled={this.getParamFromProps("page") === "1"}
+                                    onClick={() => {
+                                        let val = parseInt(this.getParamFromProps("page"), 0) - 1;
+                                        this.updateURLAndRedirect({ page: val });
+                                    }}
+                                    style={{ marginRight: 10 }}>{"Previous"}</Button>
+                                Page:
+                              <TextField type="number"
+                                    variant="outlined"
+                                    value={this.getParamFromProps("page")}
+                                    style={{ width: 70, fontWeight: "normal", height: 33, marginLeft: 5, marginRight: 5 }}
+                                    onChange={(e) => {
+                                        let val = e.target.value;
+                                        if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1)
+                                            return;
+                                        this.updateURLAndRedirect({ page: val });
 
-                            }}></TextField>
-                        of {totalPages}
-                        <Button
-                            variant="outlined"
-                            disabled={this.getParamFromProps("page") == totalPages}
-                            onClick={() => {
-                                let val = parseInt(this.getParamFromProps("page"), 0) + 1;
-                                this.updateURLAndRedirect({ page: val });
-                            }}
-                            style={{ marginLeft: 10 }}>{"Next"}</Button>
-                    </div>}
+                                    }}></TextField>
+                                of {totalPages}
+                                <Button
+                                    size="small"
+                                    color="primary"
+                                    variant="outlined"
+                                    disabled={this.getParamFromProps("page") === totalPages.toString()}
+                                    onClick={() => {
+                                        let val = parseInt(this.getParamFromProps("page"), 0) + 1;
+                                        this.updateURLAndRedirect({ page: val });
+                                    }}
+                                    style={{ marginLeft: 10, marginRight: 10 }}>{"Next"}</Button>
+                                <Button variant="outlined"
+                                    size="small"
+                                    color="primary"
+                                    disabled={this.getParamFromProps("page") === totalPages.toString()}
+                                    onClick={() => {
+                                        this.updateURLAndRedirect({ page: totalPages });
+                                    }}
+                                    style={{ marginRight: 10 }}>{"Last"}</Button>
+                            </div>
+                            <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", marginTop: 10, flex: 1, textAlign: "right" }}>
+                                <span style={{ marginLeft: 10 }}> Items per page: {this.state.itemsPerPage} </span>
+                                <span> Total items: {this.state.wholeDataLength}</span>
+                            </div>
+                        </div>}
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}

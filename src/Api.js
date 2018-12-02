@@ -70,12 +70,14 @@ class Api {
                 }
 
                 let totalLength = data.length;
-                page = parseInt(page, 0)
+
+                /* Implement paging */
                 if (page) {
+                    page = typeof (page) === "number" ? page : parseInt(page, 0);
                     data = data.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
                 }
 
-                resolve({ data: data, totalLength: totalLength, itemsPerPage: ITEMS_PER_PAGE })
+                resolve({ data, totalLength, itemsPerPage: ITEMS_PER_PAGE })
 
 
             }, 500)
