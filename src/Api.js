@@ -51,7 +51,6 @@ class Api {
                         return false;
                     }
 
-                    /* If category is not set, we are looking for popular items only. */
                     if (category === "popular") {
                         return item.popular;
                     }
