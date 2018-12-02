@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import PriceDialog from '../PriceDialog/PriceDialog';
-import TextField from '@material-ui/core/TextField';
+import Paging from "../Paging/Paging"
 
 /*
  * This component is responsible for retrieving the products it needs to show.
@@ -20,18 +20,23 @@ import TextField from '@material-ui/core/TextField';
  */
 class ProductList extends Component {
 
+    constructor(props) {
+        super(props);
 
-    state = {
-        unfinishedTasks: false,
-        openPriceDialog: false,
-        minDraft: null,
-        maxDraft: null,
-        isDraft: false,
-        itemsPerPage: null,
-        wholeDataLength: null,
-        items: []
+        this.state = {
+            unfinishedTasks: false,
+            openPriceDialog: false,
+            minDraft: null,
+            maxDraft: null,
+            isDraft: false,
+            itemsPerPage: null,
+            wholeDataLength: null,
+            items: []
+        }
+
+        this.getParamFromProps = this.getParamFromProps.bind(this);
+        this.updateURLAndRedirect = this.updateURLAndRedirect.bind(this);
     }
-
 
 
     /* Convert given object to query string */
@@ -144,9 +149,7 @@ class ProductList extends Component {
 
     render() {
 
-        /* Compute total number of pages. */
-        let totalPages = Math.ceil(this.state.wholeDataLength / this.state.itemsPerPage);
-
+     
         return (
             <div className="product-list">
                 <div className="product-list-header">
@@ -202,64 +205,13 @@ class ProductList extends Component {
                                 )
                             })}
                     </div>
-                    {/* Paging component */}
                     {this.state.unfinishedTasks === 0 &&
-                        <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", height: 30, borderTop: "1px solid lightgray", padding: 10, display: "flex" }}>
-                            <div>
-                                <Button variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                    disabled={this.getParamFromProps("page") === "1"}
-                                    onClick={() => {
-                                        this.updateURLAndRedirect({ page: 1 });
-                                    }}
-                                    style={{ marginRight: 10 }}>{"First"}</Button>
-                                <Button variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                    disabled={this.getParamFromProps("page") === "1"}
-                                    onClick={() => {
-                                        let val = parseInt(this.getParamFromProps("page"), 0) - 1;
-                                        this.updateURLAndRedirect({ page: val });
-                                    }}
-                                    style={{ marginRight: 10 }}>{"Previous"}</Button>
-                                Page:
-                              <TextField type="number"
-                                    variant="outlined"
-                                    value={this.getParamFromProps("page")}
-                                    style={{ width: 70, fontWeight: "normal", height: 33, marginLeft: 5, marginRight: 5 }}
-                                    onChange={(e) => {
-                                        let val = e.target.value;
-                                        if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1)
-                                            return;
-                                        this.updateURLAndRedirect({ page: val });
-
-                                    }}></TextField>
-                                of {totalPages}
-                                <Button
-                                    size="small"
-                                    color="primary"
-                                    variant="outlined"
-                                    disabled={this.getParamFromProps("page") === totalPages.toString()}
-                                    onClick={() => {
-                                        let val = parseInt(this.getParamFromProps("page"), 0) + 1;
-                                        this.updateURLAndRedirect({ page: val });
-                                    }}
-                                    style={{ marginLeft: 10, marginRight: 10 }}>{"Next"}</Button>
-                                <Button variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                    disabled={this.getParamFromProps("page") === totalPages.toString()}
-                                    onClick={() => {
-                                        this.updateURLAndRedirect({ page: totalPages });
-                                    }}
-                                    style={{ marginRight: 10 }}>{"Last"}</Button>
-                            </div>
-                            <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", marginTop: 10, flex: 1, textAlign: "right" }}>
-                                <span style={{ marginLeft: 10 }}> Items per page: {this.state.itemsPerPage} </span>
-                                <span> Total items: {this.state.wholeDataLength}</span>
-                            </div>
-                        </div>}
+                        <Paging
+                            getParamFromProps={this.getParamFromProps}
+                            updateURLAndRedirect={this.updateURLAndRedirect}
+                            itemsPerPage={this.state.itemsPerPage}
+                            wholeDataLength={this.state.wholeDataLength}
+                        />}
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}

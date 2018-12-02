@@ -1,5 +1,5 @@
 import { sampleProducts } from "./Data"
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 
 
 /* 
