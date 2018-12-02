@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import PriceDialog from '../PriceDialog/PriceDialog';
+import TextField from '@material-ui/core/TextField';
 
 /*
  * This component is responsible for retrieving the products it needs to show.
@@ -19,7 +20,7 @@ import PriceDialog from '../PriceDialog/PriceDialog';
  */
 class ProductList extends Component {
 
-   
+
     state = {
         unfinishedTasks: false,
         openPriceDialog: false,
@@ -49,11 +50,13 @@ class ProductList extends Component {
      * other (old) values in query string must also be retained.
      *
      */
-    updateURLAndRedirect(newObject) {
+    updateURLAndRedirect(newObject, restartPaging) {
 
         let qs = queryString.parse(this.props.location.search);
         let newUrl = { ...qs, ...newObject };
-        
+
+        if (restartPaging) delete newUrl["page"];
+
         /* Redirect to the new URL */
         this.props.history.push('/search/?' + this.objectToQueryString(newUrl));
 
@@ -71,6 +74,8 @@ class ProductList extends Component {
                 return qs.category || "popular";
             case 'term':
                 return qs.term || "";
+            case 'page':
+                return qs.page || "1";
             case 'minPrice':
                 return qs.minPrice || "0";
             case 'maxPrice':
@@ -90,19 +95,24 @@ class ProductList extends Component {
 
     fetchData(props = this.props) {
 
-        this.setState((ps)=>({ unfinishedTasks: ps.unfinishedTasks+1 }))
+        this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
 
 
         /* Make simulated request to server to get products */
         Api.searchData({
             category: this.getParamFromProps("category", props),
             term: this.getParamFromProps("term", props),
+            page: this.getParamFromProps("page", props),
             minPrice: this.getParamFromProps("minPrice", props),
             maxPrice: this.getParamFromProps("maxPrice", props),
             sortValue: this.getParamFromProps("sortValue", props),
             usePriceFilter: this.getParamFromProps("usePriceFilter", props),
         }).then((data) => {
-            this.setState((ps)=>({items: data , unfinishedTasks: ps.unfinishedTasks-1 }))
+            this.setState((ps) => ({
+                 items: data.data, 
+                 unfinishedTasks: ps.unfinishedTasks - 1,
+                 itemsPerPage: data.itemsPerPage,
+                 wholeDataLength: data.totalLength }))
         })
 
     }
@@ -133,7 +143,8 @@ class ProductList extends Component {
     }
 
     render() {
-
+ 
+        let totalPages = Math.floor(this.state.wholeDataLength / this.state.itemsPerPage) + ((this.state.wholeDataLength % this.state.itemsPerPage == 0 && this.state.wholeDataLength !== 0) ? 0 : 1);
 
         return (
             <div className="product-list">
@@ -169,7 +180,7 @@ class ProductList extends Component {
                                     checked={this.getParamFromProps("usePriceFilter")}
                                     style={{ marginBottom: 5 }}
                                     onChange={(e) => {
-                                        this.updateURLAndRedirect({ usePriceFilter: e.target.checked })
+                                        this.updateURLAndRedirect({ usePriceFilter: e.target.checked }, true)
                                     }}
                                 />
                             }
@@ -177,17 +188,48 @@ class ProductList extends Component {
                         />
                     </div>
                 </div>
-                <div>
-                    {this.state.unfinishedTasks!==0 ?
-                        <CircularProgress className="circular" /> :
-                        this.state.items.map(item => {
-                            return (
-                                <Item
-                                    key={item.id}
-                                    item={item}
-                                />
-                            )
-                        })}
+                <div style={{ flex:1, display: "flex", flexDirection: "column" }}>
+                    <div style={{ flex: 1 }}>
+                        {this.state.unfinishedTasks !== 0 ?
+                            <CircularProgress className="circular" /> :
+                            this.state.items.map(item => {
+                                return (
+                                    <Item
+                                        key={item.id}
+                                        item={item}
+                                    />
+                                )
+                            })}
+                    </div>
+                    {this.state.unfinishedTasks == 0 && <div style={{ height: 30, borderTop: "1px solid lightgray",  padding: 10 }}>
+                        <Button variant="outlined"
+                            disabled={this.getParamFromProps("page") == "1"}
+                            onClick={() => {
+                                let val = parseInt(this.getParamFromProps("page"), 0) - 1;
+                                this.updateURLAndRedirect({ page: val });
+                            }}
+                            style={{ marginRight: 10 }}>{"Previous"}</Button>
+                        Page:
+                        <TextField type="number"
+                            value={this.getParamFromProps("page")}
+                            style={{ width: 40, marginLeft: 5 }}
+                            onChange={(e) => {
+                                let val = e.target.value;
+                                if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1)
+                                    return;
+                                this.updateURLAndRedirect({ page: val });
+
+                            }}></TextField>
+                        of {totalPages}
+                        <Button
+                            variant="outlined"
+                            disabled={this.getParamFromProps("page") == totalPages}
+                            onClick={() => {
+                                let val = parseInt(this.getParamFromProps("page"), 0) + 1;
+                                this.updateURLAndRedirect({ page: val });
+                            }}
+                            style={{ marginLeft: 10 }}>{"Next"}</Button>
+                    </div>}
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}
@@ -198,7 +240,7 @@ class ProductList extends Component {
                         if (this.state.isDraft) {
                             /* If we get here, user is trying to save the draft price. */
                             this.setState({ isDraft: false })
-                            this.updateURLAndRedirect({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft });
+                            this.updateURLAndRedirect({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft }, true);
                         }
                         this.setState({ openPriceDialog: false })
                     }}

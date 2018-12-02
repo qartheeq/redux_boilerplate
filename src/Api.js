@@ -1,4 +1,5 @@
 import { sampleProducts } from "./Data"
+const ITEMS_PER_PAGE = 10;
 
 
 /* 
@@ -34,7 +35,7 @@ class Api {
         return items;
     }
 
-    searchData({ category, term, sortValue, popular, usePriceFilter, minPrice, maxPrice }) {
+    searchData({ category, term, sortValue, popular, usePriceFilter, minPrice, maxPrice, page }) {
 
 
         return new Promise((resolve, reject) => {
@@ -68,7 +69,13 @@ class Api {
                     data = Api._sort(data, sortValue)
                 }
 
-                resolve(data)
+                let totalLength = data.length;
+                page = parseInt(page, 0)
+                if (page) {
+                    data = data.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+                }
+
+                resolve({ data: data, totalLength: totalLength, itemsPerPage: ITEMS_PER_PAGE })
 
 
             }, 500)

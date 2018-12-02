@@ -35,7 +35,7 @@ class ConnectedDetails extends Component {
             this.setState((ps) => {
                 return {
                     unfinishedTasks: ps.unfinishedTasks-1,
-                    relatedItems: res.filter((x, i) => x.id !== ps.item.id && i < 10)
+                    relatedItems: res.data.filter((x, i) => x.id !== ps.item.id && i < 10)
                 }
             })
 
