@@ -9,6 +9,7 @@ Some features:
 - search using keyword and category
 - quick access to categories
 - price filter, sorting
+- paging
 - shopping cart
 - related items
 - page which can only be accessed when user is authenticated
