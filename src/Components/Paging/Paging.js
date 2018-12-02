@@ -12,6 +12,9 @@ const Paging = (props) => {
     /* Compute total number of pages. */
     let totalPages = Math.ceil(props.wholeDataLength / props.itemsPerPage);
 
+    /* We only render the paging component when there is need for it. */
+    if (totalPages <= 1) return null;
+
     return (
         <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", height: 30, borderTop: "1px solid lightgray", padding: 10, display: "flex" }}>
             <div>
@@ -33,7 +36,7 @@ const Paging = (props) => {
                     }}
                     style={{ marginRight: 10 }}>{"Previous"}</Button>
                 Page:
-          <TextField type="number"
+                 <TextField type="number"
                     variant="outlined"
                     value={props.getParamFromProps("page")}
                     style={{ width: 70, fontWeight: "normal", height: 33, marginLeft: 5, marginRight: 5 }}
