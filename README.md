@@ -18,8 +18,7 @@ Some features:
 
 1. Download the project folder. 
 
-    NOTE: Currently the project has grown in size a bit (roughly 45MB) because of .git folder size (this is probably because I had to upload different versions of the .gif file throughout time). If you want
- a version of the project which is smaller in size (16 MB), use following commmand for downloading: ```git clone --depth 1 https://github.com/giorgi-m/online-shop.git```
+    NOTE: Currently the project has grown in size a bit (roughly 45MB) mainly due to .git folder size (this is probably because I had to upload different versions of the .gif file throughout time). To download the project with reduced .git folder size (project size 16MB), use: ```git clone --depth 1 https://github.com/giorgi-m/online-shop.git```.  
 
 2. ```cd``` into the project folder.
 3. ```npm install```
