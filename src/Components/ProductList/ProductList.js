@@ -52,7 +52,8 @@ class ProductList extends Component {
 
     /* 
      * Update existing query string with parameters from newValues and redirect to that URL.
-     * If parameter: restartPaging is true, we will remove element "page" from query string.
+     * If parameter: restartPaging is true, we will remove element "page" from query string;
+     * this is needed because sometimes when user selects say price filter, we want to start from page 1.
      */
     updateURLAndRedirect(newValues, restartPaging) {
 
