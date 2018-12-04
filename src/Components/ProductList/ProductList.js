@@ -39,7 +39,7 @@ class ProductList extends Component {
     }
 
 
-    /* Convert given object to query string */
+    /* Convert object to query string */
     objectToQueryString(params) {
 
         var esc = encodeURIComponent;
@@ -51,9 +51,11 @@ class ProductList extends Component {
     }
 
     /* 
-     * Update existing query string with parameters from newValues and redirect to that URL.
-     * If parameter: restartPaging is true, we will remove element "page" from query string;
-     * this is needed because sometimes when user selects say price filter, we want to start from page 1.
+     * As noted this component determines which products to load from query string.
+     * This function is used to update the query string with new values, e.g. if
+     * user selects new price filter.
+     * In some cases we want to remove property "page" from query string (in which case
+     * this component requests page 1 by default); this happens when restartPaging is truthy.
      */
     updateURLAndRedirect(newValues, restartPaging) {
 
@@ -69,7 +71,7 @@ class ProductList extends Component {
     }
 
     /* 
-     * Extract parameter with given name from query string.
+     * Extract value of parameter with a given name from query string.
      * The query string itself is contained in passed props object.
      */
     getParamFromProps(name, props = this.props) {
