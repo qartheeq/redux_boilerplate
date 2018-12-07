@@ -1,8 +1,7 @@
 import * as CONSTANTS from "./Constants";
 
 /*
- * In this app we tend to store that part of application state in Redux, which can be needed
- * by mulitple components.
+ * If multiple components need access to some data, in that case we store such data in redux.
  */
 const initialState = {
     cartItems: [],
