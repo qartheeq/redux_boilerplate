@@ -21,25 +21,24 @@ class ConnectedDetails extends Component {
         unfinishedTasks: 0,
     }
 
-    fetch(id) {
- 
-        this.setState((ps)=>({ unfinishedTasks: ps.unfinishedTasks+1 }))
-        
-        /* First, let's get the item */
-        Api.getItemUsingID(id).then((data) => {
-            this.setState({ item: data })
-            
-            /* Now, get related items */
-            return Api.searchData({ category: data.category })
-        }).then((res) => {
-            this.setState((ps) => {
-                return {
-                    unfinishedTasks: ps.unfinishedTasks-1,
-                    relatedItems: res.data.filter((x, i) => x.id !== ps.item.id && i < 10)
-                }
-            })
+    async fetch(id) {
 
+        this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
+
+        /* First, let's get the item, details of which we want to show. */
+        let item = await Api.getItemUsingID(id);
+
+        /* Now, we can get related items too. */
+        let relatedItems = await Api.searchItems({ category: item.category });
+
+        this.setState((ps) => {
+            return {
+                item,
+                unfinishedTasks: ps.unfinishedTasks - 1,
+                relatedItems: relatedItems.data.filter((x, i) => x.id !== item.id && i < 10)
+            }
         })
+
 
     }
 
@@ -71,7 +70,7 @@ class ConnectedDetails extends Component {
         };
 
         /* If data hasn't arrived, yet, only show progress control. */
-        if (this.state.unfinishedTasks!==0 || !this.state.item) {
+        if (this.state.unfinishedTasks !== 0 || !this.state.item) {
             return (<CircularProgress className="circular" />)
         }
 
@@ -119,7 +118,7 @@ class ConnectedDetails extends Component {
                             {this.state.relatedItems.map((item) => {
                                 return (
                                     <Item
-                                         key={item.id}
+                                        key={item.id}
                                         item={item}
                                     />
                                 )

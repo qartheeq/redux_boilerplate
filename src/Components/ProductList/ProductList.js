@@ -24,7 +24,7 @@ class ProductList extends Component {
         super(props);
 
         this.state = {
-            unfinishedTasks: false,
+            unfinishedTasks: 0,
             openPriceDialog: false,
             minDraft: null,
             maxDraft: null,
@@ -53,9 +53,10 @@ class ProductList extends Component {
     /* 
      * As noted this component determines which products to load from query string.
      * This function is used to update the query string with new values, e.g. if
-     * user selects new price filter.
-     * In some cases we want to remove property "page" from query string (in which case
-     * this component requests page 1 by default); this happens when restartPaging is truthy.
+     * when selects new price filter.
+     * In some cases we want to remove property "page" from query string - in which case
+     * this component requests page 1 by default. For this to happen, one must pass
+     * restartPaging as truthy.
      */
     updateURLAndRedirect(newValues, restartPaging) {
 
@@ -101,12 +102,13 @@ class ProductList extends Component {
     }
 
 
-    fetchData(props = this.props) {
+    async fetchData(props = this.props) {
 
         this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
-
-        /* Make simulated request to server to get products */
-        Api.searchData({
+        
+        
+        /* Make simulated request to server to get items */
+        let results = await Api.searchItems({
             category: this.getParamFromProps("category", props),
             term: this.getParamFromProps("term", props),
             page: this.getParamFromProps("page", props),
@@ -114,14 +116,16 @@ class ProductList extends Component {
             maxPrice: this.getParamFromProps("maxPrice", props),
             sortValue: this.getParamFromProps("sortValue", props),
             usePriceFilter: this.getParamFromProps("usePriceFilter", props),
-        }).then((data) => {
-            this.setState((ps) => ({
-                items: data.data,
-                unfinishedTasks: ps.unfinishedTasks - 1,
-                itemsPerPage: data.itemsPerPage,
-                wholeDataLength: data.totalLength
-            }))
-        })
+        });
+
+        this.setState((ps) => ({
+            items: results.data,
+            unfinishedTasks: ps.unfinishedTasks - 1,
+            itemsPerPage: results.itemsPerPage,
+            wholeDataLength: results.totalLength
+        }));
+
+
 
     }
 
@@ -152,7 +156,6 @@ class ProductList extends Component {
 
     render() {
 
-     
         return (
             <div className="product-list">
                 <div className="product-list-header">

@@ -20,8 +20,7 @@ class Api {
     }
 
 
-
-    static _sort(data, sortval) {
+    _sortData(data, sortval) {
         let items = JSON.parse(JSON.stringify(data));
 
         if (sortval === "lh") {
@@ -35,7 +34,7 @@ class Api {
         return items;
     }
 
-    searchData({ category, term, sortValue, popular, usePriceFilter, minPrice, maxPrice, page }) {
+    searchItems({ category, term, sortValue, popular, usePriceFilter, minPrice, maxPrice, page }) {
 
 
         return new Promise((resolve, reject) => {
@@ -66,7 +65,7 @@ class Api {
                 });
 
                 if (sortValue) {
-                    data = Api._sort(data, sortValue)
+                    data = this._sortData(data, sortValue)
                 }
 
                 let totalLength = data.length;
