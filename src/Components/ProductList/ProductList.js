@@ -52,10 +52,10 @@ class ProductList extends Component {
 
     /* 
      * As noted this component determines which products to load from query string.
-     * This function is used to update the query string with new values, e.g. if
-     * when selects new price filter.
-     * In some cases we want to remove property "page" from query string - in which case
-     * this component requests page 1 by default. For this to happen, one must pass
+     * This function is used to update the query string with new values, e.g. 
+     * say when user selects new price filter.
+     * In some cases we want to remove element "page" from query string (in which case
+     * this component requests page 1 by default). For this to happen, one must pass
      * restartPaging as truthy.
      */
     updateURLAndRedirect(newValues, restartPaging) {
