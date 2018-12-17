@@ -21,7 +21,7 @@ class ConnectedLogin extends Component {
         const { from } = this.props.location.state || { from: { pathname: '/' } }
 
 
-        /* If user was authenticated, redirect her to where she came from. */
+        // If user was authenticated, redirect her to where she came from. 
         if (this.state.redirectToReferrer === true) {
             return <Redirect to={from} />
         }
@@ -49,16 +49,16 @@ class ConnectedLogin extends Component {
                     color="primary"
                     onClick={() => {
 
-                        /* Authenticate the user using entered credentials. */
+                        // Authenticate the user using entered credentials. 
                         Auth.authenticate(this.state.userName, this.state.pass, (user) => {
 
-                            /* Authentication failed. */
+                            // Authentication failed. 
                             if (!user) {
                                 this.setState({ wrongCred: true })
                                 return;
                             }
 
-                            /* If we get here, authentication was success. */
+                            // If we get here, authentication was success. 
                             this.props.dispatch(setLoggedInUser({ name: user.name }));
                             this.setState(() => ({
                                 redirectToReferrer: true

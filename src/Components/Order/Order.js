@@ -16,9 +16,7 @@ const mapStateToProps = state => {
 }
 
 
-/*
- * This component shows the items user checked out from the cart.
- */
+// This component shows the items user checked out from the cart.
 class ConnectedOrder extends Component {
     render() {
 

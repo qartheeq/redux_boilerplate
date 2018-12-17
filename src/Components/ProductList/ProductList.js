@@ -12,12 +12,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PriceDialog from '../PriceDialog/PriceDialog';
 import Paging from "../Paging/Paging"
 
-/*
- * This component is responsible for retrieving the products it needs to show.
- * It determines the kind of products it needs to show from query string.
- * It checks the query string on first render and on every props change.
- *
- */
+// This component is responsible for retrieving the products it needs to show.
+// It determines the kind of products it needs to show from query string.
+// It checks the query string on first render and on every props change.
 class ProductList extends Component {
 
     constructor(props) {
@@ -39,7 +36,7 @@ class ProductList extends Component {
     }
 
 
-    /* Convert object to query string */
+    // Convert object to query string 
     objectToQueryString(params) {
 
         var esc = encodeURIComponent;
@@ -50,14 +47,12 @@ class ProductList extends Component {
         return query;
     }
 
-    /* 
-     * As noted this component determines which products to load from query string.
-     * This function is used to update the query string with new values, e.g. 
-     * say when user selects new price filter.
-     * In some cases we want to remove element "page" from query string (in which case
-     * this component requests page 1 by default). For this to happen, one must pass
-     * restartPaging as truthy.
-     */
+    // As noted this component determines which products to load from query string.
+    // This function is used to update the query string with new values, e.g. 
+    // say when user selects new price filter.
+    // In some cases we want to remove element "page" from query string (in which case
+    // this component requests page 1 by default). For this to happen, one must pass
+    // restartPaging as truthy.
     updateURLAndRedirect(newValues, restartPaging) {
 
         let currentQs = queryString.parse(this.props.location.search);
@@ -71,10 +66,8 @@ class ProductList extends Component {
 
     }
 
-    /* 
-     * Extract value of parameter with a given name from query string.
-     * The query string itself is contained in passed props object.
-     */
+    // Extract value of parameter with a given name from query string.
+    // The query string itself is contained in passed props object.
     getParamFromProps(name, props = this.props) {
         let qs = queryString.parse(props.location.search);
 
@@ -107,7 +100,7 @@ class ProductList extends Component {
         this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
         
         
-        /* Make simulated request to server to get items */
+        // Make simulated request to server to get items 
         let results = await Api.searchItems({
             category: this.getParamFromProps("category", props),
             term: this.getParamFromProps("term", props),
@@ -141,7 +134,6 @@ class ProductList extends Component {
         this.updateURLAndRedirect({ sortValue: e.value })
     }
 
-    /* Determine page title */
     pageTitle() {
         let pageTitle;
         if (this.getParamFromProps("category") === "popular") {
@@ -226,7 +218,7 @@ class ProductList extends Component {
                     onChange={(min, max) => this.setState({ minDraft: min, maxDraft: max, isDraft: true })}
                     onSave={() => {
                         if (this.state.isDraft) {
-                            /* If we get here, user is trying to save the draft price. */
+                            // If we get here, user is trying to save the draft price. 
                             this.setState({ isDraft: false })
                             this.updateURLAndRedirect({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft }, true);
                         }

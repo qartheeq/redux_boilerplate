@@ -6,7 +6,7 @@ const mapStateToProps = state => {
   return {loggedInUser:state.loggedInUser };
 };
 
-/* Implementation of a protected route component */
+// Implementation of a protected route component 
 const ConnectedProtectedRoute = ({ component: Component, ...rest }) => {
    return  (<Route {...rest} render={(props) => {
       return rest.loggedInUser

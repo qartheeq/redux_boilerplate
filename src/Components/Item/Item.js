@@ -8,10 +8,7 @@ import { addItemInCart } from "../../Redux/Actions"
 import { withRouter } from "react-router-dom";
 
 
-/*
- * This is a card like component which shows info about single product (e.g. when you see search result of products).
- * 
- */
+// This is a card like component which shows info about single product (e.g. when you see search result of products).
 class ConnectedItem extends Component {
 
     render() {

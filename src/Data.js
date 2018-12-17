@@ -126,13 +126,11 @@ const sampleProducts = [
   },
 ];
 
-/* Available categories */
+// Available categories 
 const categories = ['All categories', 'Clothing and Shoes', 'Books', 'Jewelry and Watches', 'Computers', "Home"]
 
-/* 
- * This function generates menu items.
- * Some are hardcoded, some based on categories.
- */
+// This function generates menu items.
+// Some are hardcoded, some based on categories.
 const generateMenuItems = () => {
   let menuItems = [
     { type: "title", name: "MAIN", id: 0 },

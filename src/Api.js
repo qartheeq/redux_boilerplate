@@ -2,9 +2,7 @@ import { sampleProducts } from "./Data"
 const ITEMS_PER_PAGE = 10;
 
 
-/* 
- * Methods of this class are used to simulate calls to server. 
- */
+// Methods of this class are used to simulate calls to server. 
 class Api {
 
     getItemUsingID(id) {
@@ -46,7 +44,7 @@ class Api {
 
                 let data = sampleProducts.filter(item => {
 
-                    /* Check price filter first */
+                    // Check price filter first 
                     if (usePriceFilter && (item.price < minPrice || item.price > maxPrice)) {
                         return false;
                     }
@@ -70,7 +68,7 @@ class Api {
 
                 let totalLength = data.length;
 
-                /* Implement paging */
+                // Implement paging 
                 if (page) {
                     page = typeof (page) === "number" ? page : parseInt(page, 0);
                     data = data.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)

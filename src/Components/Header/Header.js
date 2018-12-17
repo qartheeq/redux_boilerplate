@@ -72,7 +72,7 @@ class ConnectedHeader extends Component {
                         variant="outlined"
                         color="primary"
                         onClick={() => {
-                            /* Generate new URL to redirect user to */
+                            // Generate new URL to redirect user to 
                             this.props.history.push('/search/?category=' + this.state.categoryFilter.value + "&term="+ this.state.searchTerm );
                         }}> Search</Button>
                 </div>

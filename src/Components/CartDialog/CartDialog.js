@@ -22,7 +22,6 @@ class ConnectedCartDialog extends Component {
 
     render() {
 
-        /* Total price of items in the cart */
         let totalPrice = this.props.items.reduce((accumulator, item) => {
             return accumulator + item.price * item.quantity;
         }, 0);
@@ -36,13 +35,11 @@ class ConnectedCartDialog extends Component {
                         this.props.dispatch(showCartDlg(false))
                     }}>
 
-                    {/* Title */}
                     <div style={{ display: "flex", marginTop: 25 }}>
                         <ShoppingCartIcon fontSize="large" style={{ marginLeft: 10, color: "#4282ad" }} />
                         <div style={{ marginTop: 10, marginLeft: 10, fontSize: 16, color: "gray" }}>Products in cart  </div>
                     </div>
 
-                    {/* Render the actual table */}
                     <div style={{ minWidth: 300, maxHeight: 400, overflow: "auto" }}>
                         <Table >
                             <TableHead>
@@ -61,7 +58,6 @@ class ConnectedCartDialog extends Component {
                         </Table>
                     </div>
 
-                    {/* Footer related stuff */}
                     <div style={{ marginTop: 20 }}>
                         <div style={{ float: "left", margin: 10, marginTop: 20, fontSize: 20, color: "gray", fontWeight: "bold" }}> Total Price: {totalPrice} $</div>
                         <Button style={{ float: "right", margin: 20 }}

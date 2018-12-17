@@ -25,10 +25,10 @@ class ConnectedDetails extends Component {
 
         this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
 
-        /* First, let's get the item, details of which we want to show. */
+        // First, let's get the item, details of which we want to show. 
         let item = await Api.getItemUsingID(id);
 
-        /* Now, we can get related items too. */
+        // Now, we can get related items too. 
         let relatedItems = await Api.searchItems({ category: item.category });
 
         this.setState((ps) => {
@@ -49,7 +49,7 @@ class ConnectedDetails extends Component {
 
     componentDidMount() {
 
-        /* ID of item we want to show details for is embedded in URL, retrieve it. */
+        // ID of item we want to show details for is embedded in URL, retrieve it. 
         let id = parseInt(this.props.match.params.id, 10);
         this.fetch(id);
     }
@@ -69,7 +69,7 @@ class ConnectedDetails extends Component {
             slidesToScroll: 1
         };
 
-        /* If data hasn't arrived, yet, only show progress control. */
+        // If data hasn't arrived, yet, only show progress control. 
         if (this.state.unfinishedTasks !== 0 || !this.state.item) {
             return (<CircularProgress className="circular" />)
         }

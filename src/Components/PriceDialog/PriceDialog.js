@@ -4,9 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-/*
- * This is a controlled component (e.g. state comes from parent) which allows user to enter price range.
- */
+// This is a controlled component (e.g. state comes from parent) which allows user to enter price range.
 class PriceDialog extends Component {
 
     render() {

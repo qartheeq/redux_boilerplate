@@ -10,16 +10,13 @@ const mapStateToProps = state => {
     return { show: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
 
-/*
- * This component renders a menu.
- *
- */
+// This component renders a menu.
 class ConnectedMenu extends Component {
 
     constructor(props) {
         super(props);
 
-        /* Default expand all title items in menu */
+        // Default expand all title items in menu 
         let defaultExpanded = {};
         menuItems.forEach(y => {
             if (y.type === "title") defaultExpanded[y.name] = true;
@@ -37,10 +34,9 @@ class ConnectedMenu extends Component {
                 {
 
                     menuItems.filter(y => {
-                        /*
-                         * For an item to be shown it must either be a title (has no parent),
-                         * or be in expanded state and plus user must be allowed to see it.
-                         */
+
+                        // For an item to be shown it must either be a title (has no parent),
+                        // or be in expanded state and plus user must be allowed to see it.                        
                         return (y.parent === undefined || (this.state.expanded[y.parent] && (!y.protected || this.props.loggedInUser)));
                     }).map((x, i) => {
 
@@ -52,19 +48,17 @@ class ConnectedMenu extends Component {
                                     exact
                                     isActive={(_, location) => {
 
-                                        /*
-                                         * In case current URL contains a query string we do some manual
-                                         * checks to determine if the navlink should be in active style or not.
-                                         */
+                                        // In case current URL contains a query string we do some manual
+                                        // checks to determine if the navlink should be in active style or not.
                                         if (location.search) {
                                             let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
 
                                             let currectCategory = queryString.parse(location.search).category;
-                                            let isDirect = queryString.parse(location.search).directCategory==="true";
-                                            
+                                            let isDirect = queryString.parse(location.search).directCategory === "true";
+
                                             return isDirect && itemCategory === currectCategory;
                                         }
-                                     
+
                                         return x.url === location.pathname;
                                     }}
                                     style={{
@@ -84,7 +78,7 @@ class ConnectedMenu extends Component {
                                 key={x.id}
                                 onClick={() => {
 
-                                    /* Either expand or collapse this title item */
+                                    // Either expand or collapse this title item 
                                     this.setState(ps => {
                                         return {
                                             expanded: {

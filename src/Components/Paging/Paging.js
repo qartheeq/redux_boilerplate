@@ -4,15 +4,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 
-/*
- * Paging component.
- */
+// Paging component.
 const Paging = (props) => {
 
-    /* Compute total number of pages. */
+    // Compute total number of pages. 
     let totalPages = Math.ceil(props.wholeDataLength / props.itemsPerPage);
 
-    /* We only render the paging component when there is need for it. */
+    // We only render the paging component when there is need for it. 
     if (totalPages <= 1) return null;
 
     return (
