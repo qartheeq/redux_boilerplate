@@ -10,9 +10,9 @@ Some features include:
 - Quick access to all products in given category (accessible from menu on the left)
 - Filter products using price, sort products
 - Paging
-- See related items of a given item (from details)
-- User can add items to shopping cart
-- User can do a simulated checkout of items from cart; proceeds to a page which can be accessed only when logged in.
+- See related products of a given product (from details page)
+- User can add products to shopping cart
+- User can do a simulated checkout of products from cart; proceeds to a page which can be accessed only when logged in.
 
 # How to use
 
