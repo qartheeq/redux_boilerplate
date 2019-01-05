@@ -51,7 +51,7 @@ class ConnectedHeader extends Component {
 
                     <img src={cartImage} alt={"Logo"} style={{ marginTop: 10, marginLeft: 10 }} width="64" height="64" />
                     <TextField
-                        label="Search"
+                        label="Search products"
                         value={this.state.searchTerm}
                         onChange={(e) => {
                             this.setState({ searchTerm: e.target.value })

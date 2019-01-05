@@ -5,12 +5,9 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { addItemInCart } from "../../Redux/Actions"
 import Api from "../../Api"
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import Item from "../Item/Item";
 import { connect } from "react-redux";
-var Remarkable = require('remarkable');
+ var Remarkable = require('remarkable');
 
 
 class ConnectedDetails extends Component {
@@ -21,7 +18,7 @@ class ConnectedDetails extends Component {
         unfinishedTasks: 0,
     }
 
-    async fetch(id) {
+    async fetchProductUsingID(id) {
 
         this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
 
@@ -43,15 +40,11 @@ class ConnectedDetails extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let id = parseInt(nextProps.match.params.id, 10);
-        this.fetch(id);
+        this.fetchProductUsingID(parseInt(nextProps.match.params.id, 10));
     }
 
-    componentDidMount() {
-
-        // ID of item we want to show details for is embedded in URL, retrieve it. 
-        let id = parseInt(this.props.match.params.id, 10);
-        this.fetch(id);
+    componentDidMount() {     
+        this.fetchProductUsingID(parseInt(this.props.match.params.id, 10));
     }
 
     getRawMarkup(data) {
@@ -60,14 +53,6 @@ class ConnectedDetails extends Component {
     }
 
     render() {
-
-        const sliderSettings = {
-            dots: true,
-            infinite: this.state.relatedItems.length >= 3,
-            speed: 500,
-            slidesToShow: 3,
-            slidesToScroll: 1
-        };
 
         // If data hasn't arrived, yet, only show progress control. 
         if (this.state.unfinishedTasks !== 0 || !this.state.item) {
@@ -88,10 +73,7 @@ class ConnectedDetails extends Component {
                     <div style={{ flex: 1, marginLeft: 30, display: "flex", flexDirection: "column" }}>
                         <div style={{ flex: 1 }}>
                             <div style={{ fontSize: 20, fontWeight: "bold", color: "#4282ad" }}>Price: {this.state.item.price} $</div>
-                            {this.state.item.inStock ?
-                                <span style={{ color: "#0a7f19", marginTop: 5, fontSize: 14 }}> In Stock</span> :
-                                <span style={{ color: "red", marginTop: 5, fontSize: 14 }}>Not in Stock</span>}
-                            {this.state.item.popular && <span style={{ marginTop: 5, color: "gray", fontSize: 14 }}> | Popular</span>}
+                            {this.state.item.popular && <span style={{ marginTop: 5, color: "gray", fontSize: 14 }}> Popular product</span>}
 
                             <div style={{ marginTop: 35 }}>
                                 <Button color="primary" variant="outlined"
@@ -113,19 +95,21 @@ class ConnectedDetails extends Component {
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <div className="online-shop-title-smaller">Related Items {this.state.relatedItems.length === 0 ? "(N/A)" : ""}</div>
 
-                    {this.state.relatedItems.length !== 0 &&
-                        <Slider {...sliderSettings}>
-                            {this.state.relatedItems.map((item) => {
-                                return (
-                                    <Item
-                                        key={item.id}
-                                        item={item}
-                                    />
-                                )
-                            })}
-                        </Slider>}
+                    <div style={{
+                        overflow: "auto",
+                        whiteSpace: "nowrap",
+                        marginTop:20,
+                        width: "100%",
+                    }} cols={3}>
+                        {this.state.relatedItems.map(item => (
+                            <span key={item.id} style={{ marginLeft: 50, marginRight: 50 }}>
+                                <Item
+                                    item={item}
+                                />
+                            </span>
+                        ))}
+                    </div>
                 </div>
-
             </div>
 
 

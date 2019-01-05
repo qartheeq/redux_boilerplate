@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
 import { categoryNames } from "../../Data"
 
+
 const mapStateToProps = state => {
     return { show: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
@@ -14,14 +15,14 @@ const mapStateToProps = state => {
 const generateMenuModel = (categories) => {
     let menuModel = [
         { type: "title", name: "MAIN", id: 0 },
-        { type: "item", name: "Home page", url: "/", parent: "MAIN", id: 1 },
-        { type: "item", name: "About us", url: "/about", parent: "MAIN", id: 2 },
+        { type: "item", name: "Home page", url: "/", parentID: 0, id: 1 },
+        { type: "item", name: "About us", url: "/about", parentID: 0, id: 2 },
         { type: "title", name: "CATEGORIES", id: 3 },
     ];
 
     menuModel = menuModel.concat(categories.map((x, i) => {
         return {
-            name: x, url: "/search/?category=" + x, id: 4 + i, type: "item", parent: "CATEGORIES"
+            name: x, url: "/search/?category=" + x, id: 4 + i, type: "item", parentID: 3
         }
     }))
 
@@ -29,7 +30,6 @@ const generateMenuModel = (categories) => {
 }
 
 
-// This component renders a menu.
 class ConnectedMenu extends Component {
 
     constructor(props) {
@@ -37,10 +37,10 @@ class ConnectedMenu extends Component {
 
         let menuItems = generateMenuModel(categoryNames);
 
-        // Default expand all title items in menu 
+        // Some items in menu are expandable. Initially, they are all expanded.
         let initialExpandedState = {};
         menuItems.forEach(y => {
-            if (y.type === "title") initialExpandedState[y.name] = true;
+            if (y.type === "title") initialExpandedState[y.id] = true;
         })
 
         this.state = {
@@ -50,16 +50,16 @@ class ConnectedMenu extends Component {
 
     }
     render() {
-        if (!this.props.show) return null;
+         if (!this.props.show) return null;
         return (
             <div className="menu">
                 {
 
                     this.state.menuItems.filter(y => {
 
-                        // For a menu item to be visible, it must either be a title (has no parent),
-                        // or be in expanded state and plus user must be allowed to see it.                        
-                        return (y.parent === undefined || (this.state.expanded[y.parent] && (!y.protected || this.props.loggedInUser)));
+                        // For a menu item to be visible, it must either be a title,
+                        // or its parent must be in expanded state and plus user must be allowed to see it.     
+                        return (y.parentID === undefined || (this.state.expanded[y.parentID] && (!y.protected || this.props.loggedInUser)));
                     }).map((x, i) => {
 
                         if (x.type === "item") {
@@ -89,34 +89,35 @@ class ConnectedMenu extends Component {
                                     }}
                                     activeStyle={{
                                         fontWeight: 'bold',
-                                        color: "#4282ad"
+                                        color:"gray"
                                     }}
                                 >
                                     <div className="menuItem">{x.name}</div>
                                 </NavLink></div>);
                         } else if (x.type === "title") {
-                            return (<div
-                                key={x.id}
-                                onClick={() => {
+                            return (
+                                <div
+                                    key={x.id}
+                                    onClick={() => {
 
-                                    // Either expand or collapse this title item 
-                                    this.setState(ps => {
-                                        return {
-                                            expanded: {
-                                                ...ps.expanded,
-                                                [x.name]: !ps.expanded[x.name]
+                                        // Either expand or collapse this title item 
+                                        this.setState(ps => {
+                                            return {
+                                                expanded: {
+                                                    ...ps.expanded,
+                                                    [x.id]: !ps.expanded[x.id]
+                                                }
                                             }
-                                        }
-                                    })
-                                }}
-                                style={{ height: 30, color: "gray", marginLeft: 10, marginTop: 20, fontSize: 14 }}>
-                                {this.state.expanded[x.name] ?
-                                    <i className="far fa-minus-square" style={{ marginRight: 5 }}></i> :
-                                    <i className="far fa-plus-square" style={{ marginRight: 5 }}></i>
-                                }
-                                <span>{x.name}</span>
+                                        })
+                                    }}
+                                    style={{ height: 30, marginLeft: 10, marginTop: 20, cursor: "pointer", fontSize: 14 }}>
+                                    {this.state.expanded[x.id] ?
+                                        <i className="far fa-minus-square" style={{ marginRight: 5 }}></i> :
+                                        <i className="far fa-plus-square" style={{ marginRight: 5 }}></i>
+                                    }
+                                    <span>{x.name}</span>
 
-                            </div>);
+                                </div>);
                         }
 
                         return null;

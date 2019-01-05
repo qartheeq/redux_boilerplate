@@ -16,5 +16,6 @@
 }
 
 .menuItem:hover {
-	color: #4282ad;
+	font-weight: bold;
+	color:gray
 }
