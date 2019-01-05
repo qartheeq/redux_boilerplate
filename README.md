@@ -6,13 +6,13 @@ This is an online shop prototype (front end) implemented using React, Redux and 
  
 
 Some features include:
-- search products using keyword and/or category
-- quick access to all products in given category (accessible from menu on the left)
-- filter products using price, sort products
-- paging
-- shopping cart
-- see related items of a given item (from details)
-- page which can only be accessed when user is authenticated
+- Search products using keyword and/or category
+- Quick access to all products in given category (accessible from menu on the left)
+- Filter products using price, sort products
+- Paging
+- See related items of a given item (from details)
+- User can add items to shopping cart
+- User can do a simulated checkout of items from cart; proceeds to a page which can be accessed only when logged in.
 
 # How to use
 
