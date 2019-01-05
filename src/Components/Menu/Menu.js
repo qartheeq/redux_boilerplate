@@ -2,13 +2,32 @@ import React, { Component } from 'react';
 import "./Menu.css";
 import { NavLink } from 'react-router-dom'
 import queryString from 'query-string'
-import { menuItems } from "../../Data"
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
+import { categoryNames } from "../../Data"
 
 const mapStateToProps = state => {
     return { show: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
+
+// Generates menu data. Some menu items are hardcoded, some derived from categories.
+const generateMenuModel = (categories) => {
+    let menuModel = [
+        { type: "title", name: "MAIN", id: 0 },
+        { type: "item", name: "Home page", url: "/", parent: "MAIN", id: 1 },
+        { type: "item", name: "About us", url: "/about", parent: "MAIN", id: 2 },
+        { type: "title", name: "CATEGORIES", id: 3 },
+    ];
+
+    menuModel = menuModel.concat(categories.map((x, i) => {
+        return {
+            name: x, url: "/search/?category=" + x, id: 4 + i, type: "item", parent: "CATEGORIES"
+        }
+    }))
+
+    return menuModel;
+}
+
 
 // This component renders a menu.
 class ConnectedMenu extends Component {
@@ -16,14 +35,17 @@ class ConnectedMenu extends Component {
     constructor(props) {
         super(props);
 
+        let menuItems = generateMenuModel(categoryNames);
+
         // Default expand all title items in menu 
-        let defaultExpanded = {};
+        let initialExpandedState = {};
         menuItems.forEach(y => {
-            if (y.type === "title") defaultExpanded[y.name] = true;
+            if (y.type === "title") initialExpandedState[y.name] = true;
         })
 
         this.state = {
-            expanded: defaultExpanded
+            expanded: initialExpandedState,
+            menuItems
         }
 
     }
@@ -33,9 +55,9 @@ class ConnectedMenu extends Component {
             <div className="menu">
                 {
 
-                    menuItems.filter(y => {
+                    this.state.menuItems.filter(y => {
 
-                        // For an item to be shown it must either be a title (has no parent),
+                        // For a menu item to be visible, it must either be a title (has no parent),
                         // or be in expanded state and plus user must be allowed to see it.                        
                         return (y.parent === undefined || (this.state.expanded[y.parent] && (!y.protected || this.props.loggedInUser)));
                     }).map((x, i) => {
@@ -54,11 +76,10 @@ class ConnectedMenu extends Component {
                                             let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
 
                                             let currectCategory = queryString.parse(location.search).category;
-                                            let isDirect = queryString.parse(location.search).directCategory === "true";
+                                            let directClick = queryString.parse(location.search).term === undefined;
 
-                                            return isDirect && itemCategory === currectCategory;
+                                            return directClick && itemCategory === currectCategory;
                                         }
-
                                         return x.url === location.pathname;
                                     }}
                                     style={{

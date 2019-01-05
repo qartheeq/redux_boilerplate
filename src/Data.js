@@ -38,11 +38,11 @@ const sampleProducts = [
     name: "Harry Potter",
     category: "Books",
     price: 102,
-    description: "Harry Potter is an ordinary boy who lives in a cupboard under the stairs at his Aunt Petunia"+
-     "and Uncle Vernon's house, which he thinks is normal for someone like him who's parents have been killed in"+
-     "a 'car crash'. He is bullied by them and his fat, spoilt cousin Dudley, and lives a very unremarkable life"+
-     "with only the odd hiccup (like his hair growing back overnight!) to cause him much to think about. That is"+
-     "until an owl turns up with a letter addressed to Harry and all hell breaks loose! He is literally rescued by a world where nothing is as it seems and magic lessons are the order of the day. Read and find out how Harry discovers his true heritage at Hogwarts School of Wizardry and Witchcraft, the reason behind his parents mysterious death, who is out to kill him, and how he uncovers the most amazing secret of all time, the fabled Philosopher's Stone! All this and muggles too. Now, what are they?",
+    description: "Harry Potter is an ordinary boy who lives in a cupboard under the stairs at his Aunt Petunia" +
+      "and Uncle Vernon's house, which he thinks is normal for someone like him who's parents have been killed in" +
+      "a 'car crash'. He is bullied by them and his fat, spoilt cousin Dudley, and lives a very unremarkable life" +
+      "with only the odd hiccup (like his hair growing back overnight!) to cause him much to think about. That is" +
+      "until an owl turns up with a letter addressed to Harry and all hell breaks loose! He is literally rescued by a world where nothing is as it seems and magic lessons are the order of the day. Read and find out how Harry discovers his true heritage at Hogwarts School of Wizardry and Witchcraft, the reason behind his parents mysterious death, who is out to kill him, and how he uncovers the most amazing secret of all time, the fabled Philosopher's Stone! All this and muggles too. Now, what are they?",
     inStock: false,
 
     popular: true,
@@ -126,28 +126,8 @@ const sampleProducts = [
   },
 ];
 
-// Available categories 
-const categories = ['All categories', 'Clothing and Shoes', 'Books', 'Jewelry and Watches', 'Computers', "Home"]
+// Extract list of categories from products.
+const categoryNames = ["All categories", ...sampleProducts.map(x => x.category).filter((value, index, self) => self.indexOf(value) === index)]
 
-// This function generates menu items.
-// Some are hardcoded, some based on categories.
-const generateMenuItems = () => {
-  let menuItems = [
-    { type: "title", name: "MAIN", id: 0 },
-    { type: "item", name: "Home page", url: "/", parent: "MAIN", id: 1},
-    { type: "item", name: "About us", url: "/about", parent: "MAIN", id: 2 },
-    { type: "title", name: "CATEGORIES", id: 3 },
-  ];
 
-  menuItems = menuItems.concat(categories.map((x, i) => {
-    return {
-      name: x, url: "/search/?directCategory=true&category=" + x, id: 4 + i , type: "item", parent: "CATEGORIES"
-    }
-  }))
-
-  return menuItems;
-}
-
-let menuItems = generateMenuItems();
-
-export { sampleProducts, menuItems, categories }
+export { sampleProducts, categoryNames }

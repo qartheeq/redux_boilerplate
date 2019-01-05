@@ -29,44 +29,46 @@ class ConnectedLogin extends Component {
 
         return (
             <div className="login-container">
-                <div style={{ marginBottom: 50, fontSize: 26, textAlign: "center", color: "gray" }}> Log in </div>
-                <TextField
-                    value={this.state.userName}
-                    placeholder="User name"
-                    onChange={(e) => {
-                        this.setState({ userName: e.target.value })
-                    }} />
-                <TextField
-                    value={this.state.pass}
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => {
-                        this.setState({ pass: e.target.value })
-                    }} />
-                <Button
-                    style={{ marginTop: 10 }}
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => {
+                <div style={{display:"flex", flexDirection:"column"}}>
+                    <div style={{ marginBottom: 50, fontSize: 26, textAlign: "center", color: "gray" }}> Log in </div>
+                    <TextField
+                        value={this.state.userName}
+                        placeholder="User name"
+                        onChange={(e) => {
+                            this.setState({ userName: e.target.value })
+                        }} />
+                    <TextField
+                        value={this.state.pass}
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => {
+                            this.setState({ pass: e.target.value })
+                        }} />
+                    <Button
+                        style={{ marginTop: 10 }}
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => {
 
-                        // Authenticate the user using entered credentials. 
-                        Auth.authenticate(this.state.userName, this.state.pass, (user) => {
+                            // Authenticate the user using entered credentials. 
+                            Auth.authenticate(this.state.userName, this.state.pass, (user) => {
 
-                            // Authentication failed. 
-                            if (!user) {
-                                this.setState({ wrongCred: true })
-                                return;
-                            }
+                                // Authentication failed. 
+                                if (!user) {
+                                    this.setState({ wrongCred: true })
+                                    return;
+                                }
 
-                            // If we get here, authentication was success. 
-                            this.props.dispatch(setLoggedInUser({ name: user.name }));
-                            this.setState(() => ({
-                                redirectToReferrer: true
-                            }))
+                                // If we get here, authentication was success. 
+                                this.props.dispatch(setLoggedInUser({ name: user.name }));
+                                this.setState(() => ({
+                                    redirectToReferrer: true
+                                }))
 
-                        })
-                    }}>Log in</Button>
-                {this.state.wrongCred && <div style={{ color: "red" }}>Wrong username and/or password</div>}
+                            })
+                        }}>Log in</Button>
+                    {this.state.wrongCred && <div style={{ color: "red" }}>Wrong username and/or password</div>}
+                </div>
             </div>
         );
     }

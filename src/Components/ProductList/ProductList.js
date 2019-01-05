@@ -86,8 +86,8 @@ class ProductList extends Component {
                 return qs.usePriceFilter === "true";
             case 'sortValue':
                 return qs.sortValue || "lh";
-            case 'directCategory':
-                return qs.directCategory === "true";
+            case 'directCategoryClick':
+                return qs.term === undefined;
             default:
                 return undefined;
         }
@@ -98,8 +98,8 @@ class ProductList extends Component {
     async fetchData(props = this.props) {
 
         this.setState((ps) => ({ unfinishedTasks: ps.unfinishedTasks + 1 }))
-        
-        
+
+
         // Make simulated request to server to get items 
         let results = await Api.searchItems({
             category: this.getParamFromProps("category", props),
@@ -138,7 +138,7 @@ class ProductList extends Component {
         let pageTitle;
         if (this.getParamFromProps("category") === "popular") {
             pageTitle = "Popular products";
-        } else if (this.getParamFromProps("directCategory")) {
+        } else if (this.getParamFromProps("directCategoryClick")) {
             pageTitle = this.getParamFromProps("category");
         } else {
             pageTitle = "Search results";
@@ -191,7 +191,7 @@ class ProductList extends Component {
                     </div>
                 </div>
                 <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{ flex: 1 }}>
+                    <div style={{   flex: 1 }}>
                         {this.state.unfinishedTasks !== 0 ?
                             <CircularProgress className="circular" /> :
                             this.state.items.map(item => {

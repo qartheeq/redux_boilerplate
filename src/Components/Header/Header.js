@@ -13,7 +13,7 @@ import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import cartImage from "../../Images/logo2.png"
 import Auth from "../../Auth"
-import { categories } from "../../Data"
+import { categoryNames } from "../../Data"
 import Person from '@material-ui/icons/PersonOutline';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
@@ -24,7 +24,7 @@ const mapStateToProps = state => {
     return { nrOfItemsInCard: state.cartItems.length, loggedInUser: state.loggedInUser, };
 };
 
-const categoryOptions = categories.map(x => {
+const categoryOptions = categoryNames.map(x => {
     return { value: x, label: x }
 })
 
