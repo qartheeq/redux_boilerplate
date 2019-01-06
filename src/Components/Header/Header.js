@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 };
 
 const categoryOptions = categoryNames.map(x => {
-    return <MenuItem value={x}>{x}</MenuItem>
+    return <MenuItem key={x} value={x}>{x}</MenuItem>
 
 })
 

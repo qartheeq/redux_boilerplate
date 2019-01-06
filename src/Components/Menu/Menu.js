@@ -50,7 +50,7 @@ class ConnectedMenu extends Component {
 
     }
     render() {
-         if (!this.props.show) return null;
+        if (!this.props.show) return null;
         return (
             <div className="menu">
                 {
@@ -70,16 +70,16 @@ class ConnectedMenu extends Component {
                                     exact
                                     isActive={(_, location) => {
 
+                                        let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
+
                                         // In case current URL contains a query string we do some manual
                                         // checks to determine if the navlink should be in active style or not.
-                                        if (location.search) {
-                                            let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
-
+                                        if (location.search && itemCategory !== undefined) {
                                             let currectCategory = queryString.parse(location.search).category;
                                             let directClick = queryString.parse(location.search).term === undefined;
-
                                             return directClick && itemCategory === currectCategory;
                                         }
+
                                         return x.url === location.pathname;
                                     }}
                                     style={{
@@ -89,7 +89,7 @@ class ConnectedMenu extends Component {
                                     }}
                                     activeStyle={{
                                         fontWeight: 'bold',
-                                        color:"gray"
+                                        color: "gray"
                                     }}
                                 >
                                     <div className="menuItem">{x.name}</div>

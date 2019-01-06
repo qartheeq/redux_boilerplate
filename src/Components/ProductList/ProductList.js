@@ -15,7 +15,7 @@ import Select from '@material-ui/core/Select';
 
 
 
-const sortOptions = [<MenuItem value={"lh"}>Sort by price: low to high</MenuItem>, <MenuItem value={"hl"}>Sort by price: high to low</MenuItem>]
+const sortOptions = [<MenuItem key={"lh"} value={"lh"}>Sort by price: low to high</MenuItem>, <MenuItem key={"hl"} value={"hl"}>Sort by price: high to low</MenuItem>]
 
 // This component is responsible for retrieving the products it needs to show.
 // It determines the kind of products it needs to show from query string.
@@ -152,27 +152,21 @@ class ProductList extends Component {
         return (
             <div className="product-list">
                 <div className="product-list-header">
-                    <div className="online-shop-title">{this.pageTitle()}</div>
-                    <div style={{ width: 500, marginTop: 5, display: "flex", flexGrow: 1, flexDirection: "row-reverse" }}>
-
-                        <div style={{ width: 250 }}>
-                            <Select
-                                style={{ maxWidth: 400 }}
-                                value={this.getParamFromProps("sortValue")}
-                                MenuProps={{
-                                    style: {
-                                        maxHeight: 500
-                                    }
-                                }}
-                                onChange={(e) => {
-                                    this.updateURLAndRedirect({ sortValue: e.target.value })
-                                }}
-
-                            >
-                                {sortOptions}
-                            </Select>
-                        </div>
-
+                    <div className="online-shop-title" style={{flexGrow: 1}}>{this.pageTitle()}</div>
+                    <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
+                        <FormControlLabel
+                            style={{ marginBottom: 5 }}
+                            control={
+                                <Checkbox
+                                    color="primary"
+                                    checked={this.getParamFromProps("usePriceFilter")}
+                                    onChange={(e) => {
+                                        this.updateURLAndRedirect({ usePriceFilter: e.target.checked }, true)
+                                    }}
+                                />
+                            }
+                            label="Filter by price"
+                        />
                         {this.getParamFromProps("usePriceFilter") &&
                             <Tooltip title="Click to change range" disableFocusListener >
                                 <Button
@@ -183,20 +177,21 @@ class ProductList extends Component {
                                     }}>{this.getParamFromProps("minPrice") + "$ - " + this.getParamFromProps("maxPrice") + "$"}
                                 </Button>
                             </Tooltip>}
-                        <FormControlLabel
-                            style={{ marginBottom: 5 }}
-                            control={
-                                <Checkbox
-                                    color="primary"
-                                    checked={this.getParamFromProps("usePriceFilter")}
-                                    style={{ marginBottom: 5 }}
-                                    onChange={(e) => {
-                                        this.updateURLAndRedirect({ usePriceFilter: e.target.checked }, true)
-                                    }}
-                                />
-                            }
-                            label="Filter by price"
-                        />
+                        <Select
+                            style={{ maxWidth: 400, marginBottom:10 }}
+                            value={this.getParamFromProps("sortValue")}
+                            MenuProps={{
+                                style: {
+                                    maxHeight: 500
+                                }
+                            }}
+                            onChange={(e) => {
+                                this.updateURLAndRedirect({ sortValue: e.target.value })
+                            }}
+
+                        >
+                            {sortOptions}
+                        </Select>
                     </div>
                 </div>
                 <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
