@@ -4,6 +4,7 @@
 	border-right: 1px solid lightgray;
 	overflow-y: auto;
 	background-color: #FAFAFB;
+	
 }
 
 .menuItem {
@@ -17,5 +18,6 @@
 
 .menuItem:hover {
 	font-weight: bold;
-	color:#4282ad
+	text-decoration: "underline";
+	color:gray;
 }
