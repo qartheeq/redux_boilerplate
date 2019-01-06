@@ -3,53 +3,22 @@
     width: 100%;
     height: 100%;
     overflow: auto;
- }
+}
 
 .details-page-header {
     width: 100%;
- }
+}
 
 .details-page-content {
-    height: 350px;
-    width: 100%;
     display: flex;
-    margin-top:30px;
+    padding: 20px;
 }
 
-.progress {
+.circular {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
-
-.slick-prev:before, .slick-next:before {
-    color: black !important;
-}
-
-.slick-prev {
-    margin-left: 30px !important;
-    z-index: 10000;
-}
-
-.slick-next {
-    margin-right: 50px;
-    z-index: 10000;
-}
-
-.slick-list {
-    padding-left: 60px !important;
-    padding-top: 20px !important;
- }
-
-.slick-list .slick-track {
-    margin-left: 0;
-}
-
-.circular{
-    position:absolute;  
-    left:0; right:0;
-    top:0; bottom:0;
-    margin:auto;
- }

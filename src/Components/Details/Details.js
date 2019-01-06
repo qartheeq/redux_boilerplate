@@ -7,7 +7,7 @@ import { addItemInCart } from "../../Redux/Actions"
 import Api from "../../Api"
 import Item from "../Item/Item";
 import { connect } from "react-redux";
- var Remarkable = require('remarkable');
+var Remarkable = require('remarkable');
 
 
 class ConnectedDetails extends Component {
@@ -43,10 +43,11 @@ class ConnectedDetails extends Component {
         this.fetchProductUsingID(parseInt(nextProps.match.params.id, 10));
     }
 
-    componentDidMount() {     
+    componentDidMount() {
         this.fetchProductUsingID(parseInt(this.props.match.params.id, 10));
     }
 
+    // Some product information contains markup, we use Remarkable for this.
     getRawMarkup(data) {
         const md = new Remarkable();
         return { __html: md.render(data) };
@@ -54,7 +55,6 @@ class ConnectedDetails extends Component {
 
     render() {
 
-        // If data hasn't arrived, yet, only show progress control. 
         if (this.state.unfinishedTasks !== 0 || !this.state.item) {
             return (<CircularProgress className="circular" />)
         }
@@ -62,55 +62,49 @@ class ConnectedDetails extends Component {
 
         return (
             <div className="details-page">
-
-                <div className="details-page-header">
-                    <div className="online-shop-title-smaller">{this.state.item.name}</div>
+                <div className="online-shop-title-smaller">
+                    {this.state.item.name}
                 </div>
                 <div className="details-page-content">
                     <div style={{ margin: 5, width: 290, height: 290, padding: 2, border: "1px solid lightgray", borderRadius: 5 }}>
                         <img alt={this.state.item.name} style={{ borderRadius: 5 }} src={this.state.item.imageURL} height={290} width={290} />
                     </div>
                     <div style={{ flex: 1, marginLeft: 30, display: "flex", flexDirection: "column" }}>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontSize: 20, fontWeight: "bold", color: "#4282ad" }}>Price: {this.state.item.price} $</div>
-                            {this.state.item.popular && <span style={{ marginTop: 5, color: "gray", fontSize: 14 }}> Popular product</span>}
-
-                            <div style={{ marginTop: 35 }}>
-                                <Button color="primary" variant="outlined"
-                                    onClick={() => {
-                                        this.props.dispatch(addItemInCart({ ...this.state.item, quantity: 1 }));
-                                    }}>
-                                    Add to Cart
-                                 <AddShoppingCartIcon style={{ marginLeft: 5 }} />
-                                </Button>
-                            </div>
-                        </div>
-                        <div style={{ fontWeight: "bold", fontSize: 16 }}>Description</div>
-                        <div style={{ flex: 1, maxHeight: 200, fontSize: 14, overflow: "auto" }} dangerouslySetInnerHTML={this.getRawMarkup(this.state.item.description)}></div>
+                        <div style={{ fontSize: 18, marginTop: 10, color: "#4282ad" }}>Price: {this.state.item.price} $</div>
+                        {this.state.item.popular && <span style={{ marginTop: 5, fontSize: 14 }}>Popular product</span>}
+                        <Button style={{ width: 200, marginTop: 20 }} color="primary" variant="outlined"
+                            onClick={() => {
+                                this.props.dispatch(addItemInCart({ ...this.state.item, quantity: 1 }));
+                            }}>
+                            Add to Cart  <AddShoppingCartIcon style={{ marginLeft: 5 }} />
+                        </Button>
 
                     </div>
-
-
                 </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div className="online-shop-title-smaller">Related Items {this.state.relatedItems.length === 0 ? "(N/A)" : ""}</div>
 
-                    <div style={{
-                        overflow: "auto",
-                        whiteSpace: "nowrap",
-                        marginTop:20,
-                        width: "100%",
-                    }} cols={3}>
-                        {this.state.relatedItems.map(item => (
+                <div className="online-shop-title-smaller" style={{ marginBottom: 10 }}>
+                    Description
+                </div>
+                <div style={{ flex: 1, marginLeft: 5, maxHeight: 500, fontSize: 14, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+
+                <div className="online-shop-title-smaller" style={{ marginTop: 30 }}>
+                    Related Items
+                </div>
+                <div style={{
+                    overflow: "auto",
+                    whiteSpace: "nowrap",
+                    marginTop: 20,
+                    width: "100%",
+                }} cols={3}>
+                    {this.state.relatedItems.length === 0 ? <span style={{ marginLeft: 10, fontSize: 14 }}>Not available</span> :
+                        this.state.relatedItems.map(item => (
                             <span key={item.id} style={{ marginLeft: 50, marginRight: 50 }}>
-                                <Item
-                                    item={item}
-                                />
+                                <Item item={item} />
                             </span>
                         ))}
-                    </div>
                 </div>
-            </div>
+
+            </div >
 
 
         );

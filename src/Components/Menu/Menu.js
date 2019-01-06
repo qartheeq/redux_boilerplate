@@ -37,7 +37,7 @@ class ConnectedMenu extends Component {
 
         let menuItems = generateMenuModel(categoryNames);
 
-        // Some items in menu are expandable. Initially, they are all expanded.
+        // Title items in menu are expandable. Initially, they are all set to expanded.
         let initialExpandedState = {};
         menuItems.forEach(y => {
             if (y.type === "title") initialExpandedState[y.id] = true;
@@ -89,7 +89,7 @@ class ConnectedMenu extends Component {
                                     }}
                                     activeStyle={{
                                         fontWeight: 'bold',
-                                        color: "gray"
+                                        color: "#4282ad"
                                     }}
                                 >
                                     <div className="menuItem">{x.name}</div>
@@ -110,7 +110,7 @@ class ConnectedMenu extends Component {
                                             }
                                         })
                                     }}
-                                    style={{ height: 30, marginLeft: 10, marginTop: 20, cursor: "pointer", fontSize: 14 }}>
+                                    style={{ height: 30,   marginLeft: 10, marginTop: 20, cursor: "pointer", fontSize: 14 }}>
                                     {this.state.expanded[x.id] ?
                                         <i className="far fa-minus-square" style={{ marginRight: 5 }}></i> :
                                         <i className="far fa-plus-square" style={{ marginRight: 5 }}></i>
