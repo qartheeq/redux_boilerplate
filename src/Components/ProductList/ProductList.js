@@ -4,13 +4,18 @@ import Item from "../Item/Item"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import "./ProductList.css"
 import queryString from 'query-string'
-import Dropdown from 'react-dropdown'
 import Api from "../../Api"
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import PriceDialog from '../PriceDialog/PriceDialog';
 import Paging from "../Paging/Paging"
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
+
+
+const sortOptions = [<MenuItem value={"lh"}>Sort by price: low to high</MenuItem>, <MenuItem value={"hl"}>Sort by price: high to low</MenuItem>]
 
 // This component is responsible for retrieving the products it needs to show.
 // It determines the kind of products it needs to show from query string.
@@ -48,11 +53,7 @@ class ProductList extends Component {
     }
 
     // As noted this component determines which products to load from query string.
-    // This function is used to update the query string with new values, e.g. 
-    // say when user selects new price filter.
-    // In some cases we want to remove element "page" from query string (in which case
-    // this component requests page 1 by default). For this to happen, one must pass
-    // restartPaging as truthy.
+    // This function is used to update the query string with new values.
     updateURLAndRedirect(newValues, restartPaging) {
 
         let currentQs = queryString.parse(this.props.location.search);
@@ -155,13 +156,21 @@ class ProductList extends Component {
                     <div style={{ width: 500, marginTop: 5, display: "flex", flexGrow: 1, flexDirection: "row-reverse" }}>
 
                         <div style={{ width: 250 }}>
-                            <Dropdown
-                                options={[
-                                    { value: 'lh', label: 'Sort by price: Low to High' },
-                                    { value: 'hl', label: 'Sort by price: High to Low' },
-                                ]}
-                                className='react-dropdown'
-                                onChange={this.handleSortChange} value={this.getParamFromProps("sortValue")} />
+                            <Select
+                                style={{ maxWidth: 400 }}
+                                value={this.getParamFromProps("sortValue")}
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 500
+                                    }
+                                }}
+                                onChange={(e) => {
+                                    this.updateURLAndRedirect({ sortValue: e.target.value })
+                                }}
+
+                            >
+                                {sortOptions}
+                            </Select>
                         </div>
 
                         {this.getParamFromProps("usePriceFilter") &&
@@ -191,7 +200,7 @@ class ProductList extends Component {
                     </div>
                 </div>
                 <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{   flex: 1 }}>
+                    <div style={{ flex: 1 }}>
                         {this.state.unfinishedTasks !== 0 ?
                             <CircularProgress className="circular" /> :
                             this.state.items.map(item => {

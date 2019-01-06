@@ -9,8 +9,6 @@ import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { showCartDlg, toggleMenu, setLoggedInUser } from "../../Redux/Actions"
-import Dropdown from 'react-dropdown'
-import 'react-dropdown/style.css'
 import cartImage from "../../Images/logo2.png"
 import Auth from "../../Auth"
 import { categoryNames } from "../../Data"
@@ -18,6 +16,7 @@ import Person from '@material-ui/icons/PersonOutline';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 
 const mapStateToProps = state => {
@@ -25,14 +24,15 @@ const mapStateToProps = state => {
 };
 
 const categoryOptions = categoryNames.map(x => {
-    return { value: x, label: x }
+    return <MenuItem value={x}>{x}</MenuItem>
+
 })
 
 class ConnectedHeader extends Component {
     state = {
         searchTerm: "",
         anchorEl: null,
-        categoryFilter: categoryOptions[0]
+        categoryFilter: categoryNames[0]
     }
 
     render() {
@@ -58,22 +58,32 @@ class ConnectedHeader extends Component {
                         }}
                         style={{ marginLeft: 40, width: 250, marginTop: 10 }}
                     />
-                    <div style={{ marginTop: 25, marginLeft: 20, width: 200 }}>
-                        <Dropdown
-                            options={categoryOptions}
-                            className='react-dropdown-h'
-                            onChange={(e) => {
-                                this.setState({ categoryFilter: e })
+                    <div style={{ marginTop: 25, marginLeft: 20 }}>
+                       
+                        <Select
+                            style={{ maxWidth: 200, marginTop:1 }}
+                            value={this.state.categoryFilter}
+                            MenuProps={{
+                                style: {
+                                    maxHeight: 500
+                                }
                             }}
-                            value={this.state.categoryFilter} />
+                            onChange={(e) => {
+                                this.setState({ categoryFilter: e.target.value })
+                            }}
+
+                        >
+                            {categoryOptions}
+                        </Select>
                     </div>
 
                     <Button style={{ marginTop: 25, marginLeft: 20, height: 10 }}
                         variant="outlined"
                         color="primary"
+
                         onClick={() => {
                             // Generate new URL to redirect user to 
-                            this.props.history.push('/search/?category=' + this.state.categoryFilter.value + "&term="+ this.state.searchTerm );
+                            this.props.history.push('/search/?category=' + this.state.categoryFilter + "&term=" + this.state.searchTerm);
                         }}> Search</Button>
                 </div>
                 <div className="right-part">
@@ -91,7 +101,7 @@ class ConnectedHeader extends Component {
                         (<Button
                             variant="outlined"
                             color="primary"
-                            style={{ height: 10, marginTop: 25, marginRight:20 }}
+                            style={{ height: 10, marginTop: 25, marginRight: 20 }}
                             onClick={() => {
                                 this.props.history.push('/login');
                             }}>

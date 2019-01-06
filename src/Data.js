@@ -116,7 +116,6 @@ const sampleProducts = [
 ];
 
 // Extract list of categories from products.
-const categoryNames = ["All categories", ...sampleProducts.map(x => x.category).filter((value, index, self) => self.indexOf(value) === index)]
-
-
-export { sampleProducts, categoryNames }
+const categoryNames  = ["All categories", ...sampleProducts.map(x => x.category).filter((value, index, self) => self.indexOf(value) === index)]
+ 
+ export { sampleProducts, categoryNames }
