@@ -1,6 +1,7 @@
 # Description
 
-This is an online shop prototype (front end) implemented using React, Redux and React router.
+This is an online shop prototype (front end) implemented using React. Other technologies we use in this project are:
+Redux, React router, and React Material UI library.
 
 <img src="https://raw.githubusercontent.com/giorgi-m/online-shop/master/src/Images/screenshot.PNG" width="820" height="420">
  
