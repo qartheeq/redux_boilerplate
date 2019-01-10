@@ -152,7 +152,7 @@ class ProductList extends Component {
         return (
             <div className="product-list">
                 <div className="product-list-header">
-                    <div className="online-shop-title" style={{flexGrow: 1}}>{this.pageTitle()}</div>
+                    <div className="online-shop-title" style={{ flexGrow: 1 }}>{this.pageTitle()}</div>
                     <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
                         <FormControlLabel
                             style={{ marginBottom: 5 }}
@@ -178,7 +178,7 @@ class ProductList extends Component {
                                 </Button>
                             </Tooltip>}
                         <Select
-                            style={{ maxWidth: 400, marginBottom:10 }}
+                            style={{ maxWidth: 400, marginBottom: 10 }}
                             value={this.getParamFromProps("sortValue")}
                             MenuProps={{
                                 style: {
@@ -221,14 +221,18 @@ class ProductList extends Component {
                     max={this.state.isDraft ? this.state.maxDraft : this.getParamFromProps("maxPrice")}
                     onChange={(min, max) => this.setState({ minDraft: min, maxDraft: max, isDraft: true })}
                     onSave={() => {
+
+                        // Only if isDraft is true, it means user actually typed something in one of the text fields,
+                        // and then it makes sense to use draft price.
                         if (this.state.isDraft) {
-                            // If we get here, user is trying to save the draft price. 
                             this.setState({ isDraft: false })
                             this.updateURLAndRedirect({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft }, true);
                         }
                         this.setState({ openPriceDialog: false })
                     }}
-                    onClose={() => this.setState({ openPriceDialog: false, isDraft: false })}
+                    onClose={() => this.setState({
+                        openPriceDialog: false, isDraft: false
+                    })}
                 />
 
             </div>

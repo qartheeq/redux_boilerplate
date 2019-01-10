@@ -111,7 +111,7 @@ class ConnectedMenu extends Component {
                                             }
                                         })
                                     }}
-                                    style={{ height: 30, marginLeft: 10, marginTop: 20, cursor: "pointer", fontSize: 14 }}>
+                                    style={{ height: 20, marginLeft: 10, marginTop: 10, cursor: "pointer", fontSize: 14 }}>
                                     {this.state.expanded[x.id] ?
                                         <i className="far fa-minus-square" style={{ marginRight: 5 }}></i> :
                                         <i className="far fa-plus-square" style={{ marginRight: 5 }}></i>
