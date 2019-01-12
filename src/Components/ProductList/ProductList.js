@@ -28,8 +28,7 @@ class ProductList extends Component {
         this.state = {
             unfinishedTasks: 0,
             openPriceDialog: false,
-            draftPrice: { min: "", max: "" },
-            isDraft: false,
+            priceFilterDraftValue: { min: "", max: "" },
             itemsPerPage: null,
             wholeDataLength: null,
             items: []
@@ -174,7 +173,7 @@ class ProductList extends Component {
                                     onClick={() => {
                                         this.setState({
                                             openPriceDialog: true,
-                                            draftPrice: {
+                                            priceFilterDraftValue: {
                                                 min: this.getParamFromQS("minPrice"),
                                                 max: this.getParamFromQS("maxPrice")
                                             }
@@ -222,16 +221,16 @@ class ProductList extends Component {
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}
-                    price={this.state.draftPrice}
+                    price={this.state.priceFilterDraftValue}
                     onChange={(min, max) => this.setState({
-                        draftPrice: { min, max }
+                        priceFilterDraftValue: { min, max }
                     })}
                     onSave={() => {
-                        this.updateURLAndRedirect({ minPrice: this.state.draftPrice.min, maxPrice: this.state.draftPrice.max }, true);
-                        this.setState({ openPriceDialog: false, draftPrice: { min: "", max: "" } });
+                        this.updateURLAndRedirect({ minPrice: this.state.priceFilterDraftValue.min, maxPrice: this.state.priceFilterDraftValue.max }, true);
+                        this.setState({ openPriceDialog: false, priceFilterDraftValue: { min: "", max: "" } });
                     }}
                     onClose={() => this.setState({
-                        openPriceDialog: false, draftPrice: { min: "", max: "" }
+                        openPriceDialog: false, priceFilterDraftValue: { min: "", max: "" }
                     })}
                 />
 
