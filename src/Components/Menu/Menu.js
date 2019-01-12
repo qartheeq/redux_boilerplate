@@ -88,8 +88,7 @@ class ConnectedMenu extends Component {
 
                                     }}
                                     activeStyle={{
-                                        fontWeight: 'bold',
-                                        color: "gray",
+                                         color: "#4282ad",
                                         textDecoration: "underline"
                                     }}
                                 >

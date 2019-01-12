@@ -17,7 +17,6 @@
 }
 
 .menuItem:hover {
-	font-weight: bold;
-	text-decoration: "underline";
-	color:gray;
+ 	text-decoration: underline;
+	color:#4282ad;
 }

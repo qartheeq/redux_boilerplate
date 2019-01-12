@@ -101,7 +101,7 @@ class ConnectedHeader extends Component {
                                 onClick={(event) => {
                                     this.setState({ anchorEl: event.currentTarget });
                                 }}
-                                style={{ backgroundColor: "#3f51b5", marginLeft: 20 }} >
+                                style={{ backgroundColor: "#3f51b5", marginLeft:50 }} >
                                 <Person />
                             </Avatar>)
                         }

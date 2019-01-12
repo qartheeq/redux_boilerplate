@@ -19,7 +19,7 @@ const Paging = (props) => {
                 <Button variant="outlined"
                     size="small"
                     color="primary"
-                    disabled={props.getParamFromProps("page") === "1"}
+                    disabled={props.getParamFromQS("page") === "1"}
                     onClick={() => {
                         props.updateURLAndRedirect({ page: 1 });
                     }}
@@ -27,16 +27,16 @@ const Paging = (props) => {
                 <Button variant="outlined"
                     size="small"
                     color="primary"
-                    disabled={props.getParamFromProps("page") === "1"}
+                    disabled={props.getParamFromQS("page") === "1"}
                     onClick={() => {
-                        let val = parseInt(props.getParamFromProps("page"), 0) - 1;
+                        let val = parseInt(props.getParamFromQS("page"), 0) - 1;
                         props.updateURLAndRedirect({ page: val });
                     }}
                     style={{ marginRight: 10 }}>{"Previous"}</Button>
                 Page:
                  <TextField type="number"
                     variant="outlined"
-                    value={props.getParamFromProps("page")}
+                    value={props.getParamFromQS("page")}
                     style={{ width: 70, fontWeight: "normal", height: 33, marginLeft: 5, marginRight: 5 }}
                     onChange={(e) => {
                         let val = e.target.value;
@@ -50,16 +50,16 @@ const Paging = (props) => {
                     size="small"
                     color="primary"
                     variant="outlined"
-                    disabled={props.getParamFromProps("page") === totalPages.toString()}
+                    disabled={props.getParamFromQS("page") === totalPages.toString()}
                     onClick={() => {
-                        let val = parseInt(props.getParamFromProps("page"), 0) + 1;
+                        let val = parseInt(props.getParamFromQS("page"), 0) + 1;
                         props.updateURLAndRedirect({ page: val });
                     }}
                     style={{ marginLeft: 10, marginRight: 10 }}>{"Next"}</Button>
                 <Button variant="outlined"
                     size="small"
                     color="primary"
-                    disabled={props.getParamFromProps("page") === totalPages.toString()}
+                    disabled={props.getParamFromQS("page") === totalPages.toString()}
                     onClick={() => {
                         props.updateURLAndRedirect({ page: totalPages });
                     }}

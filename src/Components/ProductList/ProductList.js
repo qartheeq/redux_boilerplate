@@ -36,7 +36,7 @@ class ProductList extends Component {
             items: []
         }
 
-        this.getParamFromProps = this.getParamFromProps.bind(this);
+        this.getParamFromQS = this.getParamFromQS.bind(this);
         this.updateURLAndRedirect = this.updateURLAndRedirect.bind(this);
     }
 
@@ -69,7 +69,7 @@ class ProductList extends Component {
 
     // Extract value of parameter with a given name from query string.
     // The query string itself is contained in passed props object.
-    getParamFromProps(name, props = this.props) {
+    getParamFromQS(name, props = this.props) {
         let qs = queryString.parse(props.location.search);
 
         switch (name) {
@@ -103,13 +103,13 @@ class ProductList extends Component {
 
         // Make simulated request to server to get items 
         let results = await Api.searchItems({
-            category: this.getParamFromProps("category", props),
-            term: this.getParamFromProps("term", props),
-            page: this.getParamFromProps("page", props),
-            minPrice: this.getParamFromProps("minPrice", props),
-            maxPrice: this.getParamFromProps("maxPrice", props),
-            sortValue: this.getParamFromProps("sortValue", props),
-            usePriceFilter: this.getParamFromProps("usePriceFilter", props),
+            category: this.getParamFromQS("category", props),
+            term: this.getParamFromQS("term", props),
+            page: this.getParamFromQS("page", props),
+            minPrice: this.getParamFromQS("minPrice", props),
+            maxPrice: this.getParamFromQS("maxPrice", props),
+            sortValue: this.getParamFromQS("sortValue", props),
+            usePriceFilter: this.getParamFromQS("usePriceFilter", props),
         });
 
         this.setState((ps) => ({
@@ -137,10 +137,10 @@ class ProductList extends Component {
 
     pageTitle() {
         let pageTitle;
-        if (this.getParamFromProps("category") === "popular") {
+        if (this.getParamFromQS("category") === "popular") {
             pageTitle = "Popular products";
-        } else if (this.getParamFromProps("directCategoryClick")) {
-            pageTitle = this.getParamFromProps("category");
+        } else if (this.getParamFromQS("directCategoryClick")) {
+            pageTitle = this.getParamFromQS("category");
         } else {
             pageTitle = "Search results";
         }
@@ -159,7 +159,7 @@ class ProductList extends Component {
                             control={
                                 <Checkbox
                                     color="primary"
-                                    checked={this.getParamFromProps("usePriceFilter")}
+                                    checked={this.getParamFromQS("usePriceFilter")}
                                     onChange={(e) => {
                                         this.updateURLAndRedirect({ usePriceFilter: e.target.checked }, true)
                                     }}
@@ -167,19 +167,19 @@ class ProductList extends Component {
                             }
                             label="Filter by price"
                         />
-                        {this.getParamFromProps("usePriceFilter") &&
+                        {this.getParamFromQS("usePriceFilter") &&
                             <Tooltip title="Click to change range" disableFocusListener >
                                 <Button
                                     variant="outlined"
                                     style={{ marginRight: 20, height: 10 }}
                                     onClick={() => {
                                         this.setState({ openPriceDialog: true })
-                                    }}>{this.getParamFromProps("minPrice") + "$ - " + this.getParamFromProps("maxPrice") + "$"}
+                                    }}>{this.getParamFromQS("minPrice") + "$ - " + this.getParamFromQS("maxPrice") + "$"}
                                 </Button>
                             </Tooltip>}
                         <Select
                             style={{ maxWidth: 400, marginBottom: 10 }}
-                            value={this.getParamFromProps("sortValue")}
+                            value={this.getParamFromQS("sortValue")}
                             MenuProps={{
                                 style: {
                                     maxHeight: 500
@@ -209,7 +209,7 @@ class ProductList extends Component {
                     </div>
                     {this.state.unfinishedTasks === 0 &&
                         <Paging
-                            getParamFromProps={this.getParamFromProps}
+                            getParamFromQS={this.getParamFromQS}
                             updateURLAndRedirect={this.updateURLAndRedirect}
                             itemsPerPage={this.state.itemsPerPage}
                             wholeDataLength={this.state.wholeDataLength}
@@ -217,8 +217,8 @@ class ProductList extends Component {
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}
-                    min={this.state.isDraft ? this.state.minDraft : this.getParamFromProps("minPrice")}
-                    max={this.state.isDraft ? this.state.maxDraft : this.getParamFromProps("maxPrice")}
+                    min={this.state.isDraft ? this.state.minDraft : this.getParamFromQS("minPrice")}
+                    max={this.state.isDraft ? this.state.maxDraft : this.getParamFromQS("maxPrice")}
                     onChange={(min, max) => this.setState({ minDraft: min, maxDraft: max, isDraft: true })}
                     onSave={() => {
 
