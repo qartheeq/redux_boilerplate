@@ -4,12 +4,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-// This is a controlled component (e.g. state comes from parent) which allows user to enter price range.
 class PriceDialog extends Component {
 
     render() {
 
-        let { min, max } = this.props;
+        let { min, max } = this.props.price;
 
         return (
             <div>
@@ -30,8 +29,7 @@ class PriceDialog extends Component {
                                 placeholder="Min"
                                 label="Min"
                                 onChange={(e) => {
-                                   
-                                    if (parseInt(e.target.value, 10) < 0  || parseInt(e.target.value, 10) > 100000) return;
+                                    if (e.target.value.length === 0 || parseInt(e.target.value, 10) < 0 || parseInt(e.target.value, 10) > 100000) return;
                                     this.props.onChange(e.target.value, max);
                                 }} />
                             <TextField
@@ -41,7 +39,7 @@ class PriceDialog extends Component {
                                 placeholder="Max"
                                 label="Max"
                                 onChange={(e) => {
-                                    if (parseInt(e.target.value, 10) < 0  || parseInt(e.target.value, 10) > 100000) return;
+                                    if (e.target.value.length === 0 || parseInt(e.target.value, 10) < 0 || parseInt(e.target.value, 10) > 100000) return;
                                     this.props.onChange(min, e.target.value);
                                 }} />
                         </div>
@@ -51,7 +49,6 @@ class PriceDialog extends Component {
                                 color="primary"
                                 style={{ width: 50 }}
                                 onClick={() => {
-                                    if(min === "" || max === "") return;
                                     this.props.onSave();
                                 }}>OK
                             </Button>
@@ -60,9 +57,7 @@ class PriceDialog extends Component {
                                 variant="outlined"
                                 style={{ width: 50, marginLeft: 5 }}
                                 onClick={() => {
-
                                     this.props.onClose()
-
                                 }}>
                                 Cancel
                             </Button>

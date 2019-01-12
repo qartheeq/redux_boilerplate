@@ -28,8 +28,7 @@ class ProductList extends Component {
         this.state = {
             unfinishedTasks: 0,
             openPriceDialog: false,
-            minDraft: null,
-            maxDraft: null,
+            draftPrice: { min: "", max: "" },
             isDraft: false,
             itemsPerPage: null,
             wholeDataLength: null,
@@ -173,7 +172,13 @@ class ProductList extends Component {
                                     variant="outlined"
                                     style={{ marginRight: 20, height: 10 }}
                                     onClick={() => {
-                                        this.setState({ openPriceDialog: true })
+                                        this.setState({
+                                            openPriceDialog: true,
+                                            draftPrice: {
+                                                min: this.getParamFromQS("minPrice"),
+                                                max: this.getParamFromQS("maxPrice")
+                                            }
+                                        })
                                     }}>{this.getParamFromQS("minPrice") + "$ - " + this.getParamFromQS("maxPrice") + "$"}
                                 </Button>
                             </Tooltip>}
@@ -217,21 +222,16 @@ class ProductList extends Component {
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}
-                    min={this.state.isDraft ? this.state.minDraft : this.getParamFromQS("minPrice")}
-                    max={this.state.isDraft ? this.state.maxDraft : this.getParamFromQS("maxPrice")}
-                    onChange={(min, max) => this.setState({ minDraft: min, maxDraft: max, isDraft: true })}
+                    price={this.state.draftPrice}
+                    onChange={(min, max) => this.setState({
+                        draftPrice: { min, max }
+                    })}
                     onSave={() => {
-
-                        // Only if isDraft is true, it means user actually typed something in one of the text fields,
-                        // and then it makes sense to use draft price.
-                        if (this.state.isDraft) {
-                            this.setState({ isDraft: false })
-                            this.updateURLAndRedirect({ minPrice: this.state.minDraft, maxPrice: this.state.maxDraft }, true);
-                        }
-                        this.setState({ openPriceDialog: false })
+                        this.updateURLAndRedirect({ minPrice: this.state.draftPrice.min, maxPrice: this.state.draftPrice.max }, true);
+                        this.setState({ openPriceDialog: false, draftPrice: { min: "", max: "" } });
                     }}
                     onClose={() => this.setState({
-                        openPriceDialog: false, isDraft: false
+                        openPriceDialog: false, draftPrice: { min: "", max: "" }
                     })}
                 />
 
