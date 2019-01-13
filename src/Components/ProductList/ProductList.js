@@ -28,7 +28,6 @@ class ProductList extends Component {
         this.state = {
             unfinishedTasks: 0,
             openPriceDialog: false,
-            priceFilterDraftValue: { min: "", max: "" },
             itemsPerPage: null,
             wholeDataLength: null,
             items: []
@@ -172,11 +171,7 @@ class ProductList extends Component {
                                     style={{ marginRight: 20, height: 10 }}
                                     onClick={() => {
                                         this.setState({
-                                            openPriceDialog: true,
-                                            priceFilterDraftValue: {
-                                                min: this.getParamFromQS("minPrice"),
-                                                max: this.getParamFromQS("maxPrice")
-                                            }
+                                            openPriceDialog: true
                                         })
                                     }}>{this.getParamFromQS("minPrice") + "$ - " + this.getParamFromQS("maxPrice") + "$"}
                                 </Button>
@@ -221,16 +216,14 @@ class ProductList extends Component {
                 </div>
                 <PriceDialog
                     open={this.state.openPriceDialog}
-                    price={this.state.priceFilterDraftValue}
-                    onChange={(min, max) => this.setState({
-                        priceFilterDraftValue: { min, max }
-                    })}
-                    onSave={() => {
-                        this.updateURLAndRedirect({ minPrice: this.state.priceFilterDraftValue.min, maxPrice: this.state.priceFilterDraftValue.max }, true);
-                        this.setState({ openPriceDialog: false, priceFilterDraftValue: { min: "", max: "" } });
+                    min={this.getParamFromQS("minPrice")}
+                    max={this.getParamFromQS("maxPrice")}
+                    onSave={(min, max) => {
+                        this.setState({ openPriceDialog: false });
+                        this.updateURLAndRedirect({ minPrice: min, maxPrice: max }, true);
                     }}
                     onClose={() => this.setState({
-                        openPriceDialog: false, priceFilterDraftValue: { min: "", max: "" }
+                        openPriceDialog: false
                     })}
                 />
 

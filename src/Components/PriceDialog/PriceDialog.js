@@ -6,9 +6,24 @@ import TextField from '@material-ui/core/TextField';
 
 class PriceDialog extends Component {
 
+    state = {
+
+    }
+
+    componentWillReceiveProps(np) {
+        
+        // Whenever this dialog is opened, copy the value of min and max to state.
+        if (this.props.open === false && np.open === true) {
+            this.setState({
+                min: np.min,
+                max: np.max
+            })
+        }
+    }
+
     render() {
 
-        let { min, max } = this.props.price;
+        let { min, max } = this.state;
 
         return (
             <div>
@@ -29,8 +44,11 @@ class PriceDialog extends Component {
                                 placeholder="Min"
                                 label="Min"
                                 onChange={(e) => {
-                                    if (e.target.value.length === 0 || parseInt(e.target.value, 10) < 0 || parseInt(e.target.value, 10) > 100000) return;
-                                    this.props.onChange(e.target.value, max);
+                                    let val = e.target.value;
+                                    if (val.length === 0 || parseInt(val, 10) < 0 || parseInt(val, 10) > 100000) return;
+                                    this.setState({
+                                        min: val
+                                    })
                                 }} />
                             <TextField
                                 value={max}
@@ -39,8 +57,11 @@ class PriceDialog extends Component {
                                 placeholder="Max"
                                 label="Max"
                                 onChange={(e) => {
-                                    if (e.target.value.length === 0 || parseInt(e.target.value, 10) < 0 || parseInt(e.target.value, 10) > 100000) return;
-                                    this.props.onChange(min, e.target.value);
+                                    let val = e.target.value;
+                                    if (val.length === 0 || parseInt(val, 10) < 0 || parseInt(val, 10) > 100000) return;
+                                    this.setState({
+                                        max: val
+                                    })
                                 }} />
                         </div>
                         <div style={{ display: "flex", padding: 20 }}>
@@ -49,7 +70,7 @@ class PriceDialog extends Component {
                                 color="primary"
                                 style={{ width: 50 }}
                                 onClick={() => {
-                                    this.props.onSave();
+                                    this.props.onSave(min, max);
                                 }}>OK
                             </Button>
                             <Button
