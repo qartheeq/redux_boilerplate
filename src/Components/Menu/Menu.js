@@ -8,10 +8,10 @@ import { categoryNames } from "../../Data"
 
 
 const mapStateToProps = state => {
-    return { show: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
+    return { showMenu: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
 
-// Generates menu data. Some menu items are hardcoded, some derived from categories.
+// Generates menu data from input.
 const generateMenuModel = (categories) => {
     let menuModel = [
         { type: "title", name: "Main", id: 0 },
@@ -50,7 +50,7 @@ class ConnectedMenu extends Component {
 
     }
     render() {
-        if (!this.props.show) return null;
+        if (!this.props.showMenu) return null;
         return (
             <div className="menu">
                 {
@@ -110,7 +110,7 @@ class ConnectedMenu extends Component {
                                             }
                                         })
                                     }}
-                                    style={{ height: 20, marginLeft: 10, marginTop: 10, cursor: "pointer", fontSize: 14 }}>
+                                    style={{ padding:5, height: 20, marginLeft: 10, marginTop: 10, cursor: "pointer", fontSize: 14 }}>
                                     {this.state.expanded[x.id] ?
                                         <i className="far fa-minus-square" style={{ marginRight: 5 }}></i> :
                                         <i className="far fa-plus-square" style={{ marginRight: 5 }}></i>

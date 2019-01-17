@@ -44,12 +44,11 @@ class ConnectedHeader extends Component {
             <AppBar position="static" style={{ backgroundColor: "#FAFAFB", height: 80 }}>
                 <Toolbar style={{ height: "100%" }}>
                     <div className="left-part">
-                        <div style={{ width: 50, marginLeft: 10 }}>
-                            <IconButton onClick={() => {
-                                this.props.dispatch(toggleMenu())
-                            }}>
-                                <MenuIcon size="medium" />
-                            </IconButton></div>
+                        <IconButton onClick={() => {
+                            this.props.dispatch(toggleMenu())
+                        }}>
+                            <MenuIcon size="medium" />
+                        </IconButton>
 
                         <img src={cartImage} alt={"Logo"} style={{ marginLeft: 10 }} width="64" height="64" />
                         <TextField
@@ -101,7 +100,7 @@ class ConnectedHeader extends Component {
                                 onClick={(event) => {
                                     this.setState({ anchorEl: event.currentTarget });
                                 }}
-                                style={{ backgroundColor: "#3f51b5", marginLeft:50 }} >
+                                style={{ backgroundColor: "#3f51b5", marginLeft: 50 }} >
                                 <Person />
                             </Avatar>)
                         }

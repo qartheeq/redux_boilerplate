@@ -8,11 +8,8 @@
 }
 
 .menuItem {
-	color: inherit;
-	font-size: 14px;
-	width: 100%;
+ 	font-size: 14px;
 	text-align: center;
-	box-sizing: border-box;
 	padding: 5px;
 }
 

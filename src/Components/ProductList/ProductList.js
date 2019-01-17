@@ -194,7 +194,7 @@ class ProductList extends Component {
                     </div>
                 </div>
                 <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1  }}>
                         {this.state.unfinishedTasks !== 0 ?
                             <CircularProgress className="circular" /> :
                             this.state.items.map(item => {

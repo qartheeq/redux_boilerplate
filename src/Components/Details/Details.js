@@ -7,6 +7,7 @@ import { addItemInCart } from "../../Redux/Actions"
 import Api from "../../Api"
 import Item from "../Item/Item";
 import { connect } from "react-redux";
+ 
 var Remarkable = require('remarkable');
 
 
@@ -62,12 +63,13 @@ class ConnectedDetails extends Component {
 
         return (
             <div className="details-page">
-                <div className="online-shop-title-smaller">
+
+                <div style={{ lineHeight: "50px", padding: 5, height: 50, border: "1px solid #babdc1", backgroundColor: "#FAFAFB", color: "black" }}>
                     {this.state.item.name}
                 </div>
                 <div className="details-page-content">
                     <div style={{ margin: 5, width: 290, height: 290, padding: 2, border: "1px solid lightgray", borderRadius: 5 }}>
-                        <img alt={this.state.item.name} style={{ borderRadius: 5 }} src={this.state.item.imageURL} height={290} width={290} />
+                        <img alt={this.state.item.name} style={{ objectFit: "contain", height: "100%", width: "100%"  }} src={this.state.item.imageURL}   />
                     </div>
                     <div style={{ flex: 1, marginLeft: 30, display: "flex", flexDirection: "column" }}>
                         <div style={{ fontSize: 18, marginTop: 10, color: "#4282ad" }}>Price: {this.state.item.price} $</div>
@@ -82,14 +84,17 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div className="online-shop-title-smaller" style={{ marginBottom: 10 }}>
+                <div style={{ lineHeight: "50px", padding: 5, height: 50, border: "1px solid #babdc1", backgroundColor: "#FAFAFB", color: "black" }}>
                     Description
-                </div>
-                <div style={{ flex: 1, marginLeft: 5, maxHeight: 500, fontSize: 14, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+                 </div>
 
-                <div className="online-shop-title-smaller" style={{ marginTop: 30 }}>
+                <div style={{ marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 14, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+
+
+                <div style={{ marginTop: 20, lineHeight: "50px", padding: 5, height: 50, border: "1px solid #babdc1", backgroundColor: "#FAFAFB", color: "black" }}>
                     Related Items
-                </div>
+                 </div>
+
                 <div style={{
                     overflow: "auto",
                     whiteSpace: "nowrap",
