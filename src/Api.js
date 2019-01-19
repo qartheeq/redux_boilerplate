@@ -1,5 +1,4 @@
 import { sampleProducts } from "./Data"
-const ITEMS_PER_PAGE = 10;
 
 
 // Methods of this class are used to simulate calls to server. 
@@ -32,7 +31,7 @@ class Api {
         return items;
     }
 
-    searchItems({ category, term, sortValue, popular, usePriceFilter, minPrice, maxPrice, page }) {
+    searchItems({ category, term, sortValue, itemsPerPage, popular, usePriceFilter, minPrice, maxPrice, page }) {
 
 
         return new Promise((resolve, reject) => {
@@ -71,10 +70,10 @@ class Api {
                 // Implement paging 
                 if (page) {
                     page = typeof (page) === "number" ? page : parseInt(page, 0);
-                    data = data.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+                    data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
                 }
 
-                resolve({ data, totalLength, itemsPerPage: ITEMS_PER_PAGE })
+                resolve({ data, totalLength })
 
 
             }, 500)

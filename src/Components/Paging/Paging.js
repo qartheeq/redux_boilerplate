@@ -1,30 +1,35 @@
 import React from 'react';
-
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Left from '@material-ui/icons/ChevronLeft';
+import Right from '@material-ui/icons/ChevronRight';
+import First from '@material-ui/icons/FirstPage';
+import Last from '@material-ui/icons/LastPage';
+import IconButton from '@material-ui/core/IconButton';
 
+const itemsPerPageOptions = [<MenuItem key={"5"} value={"5"}>5</MenuItem>, <MenuItem key={"10"} value={"10"}>10</MenuItem>, <MenuItem key={"50"} value={"50"}>50</MenuItem>]
 
 // Paging component.
 const Paging = (props) => {
 
-    // Compute total number of pages. 
-    let totalPages = Math.ceil(props.wholeDataLength / props.itemsPerPage);
+    let itemsPerPage = props.getParamFromQS("itemsPerPage");
 
-    // We only render the paging component when there is need for it. 
-    if (totalPages <= 1) return null;
+    // Compute total number of pages. 
+    let totalPages = Math.ceil(props.wholeDataLength / parseInt(itemsPerPage));
+
 
     return (
-        <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", height: 30, borderTop: "1px solid lightgray", padding: 10, display: "flex" }}>
-            <div>
-                <Button variant="outlined"
+        <div style={{display:"flex", marginTop:15, fontSize:13, color:"gray", alignItems:"center"}} >
+                 <IconButton
                     size="small"
                     color="primary"
                     disabled={props.getParamFromQS("page") === "1"}
                     onClick={() => {
                         props.updateURLAndRedirect({ page: 1 });
                     }}
-                    style={{ marginRight: 10 }}>{"First"}</Button>
-                <Button variant="outlined"
+                    style={{ marginRight: 10 }}><First /></IconButton>
+                <IconButton
                     size="small"
                     color="primary"
                     disabled={props.getParamFromQS("page") === "1"}
@@ -32,12 +37,12 @@ const Paging = (props) => {
                         let val = parseInt(props.getParamFromQS("page"), 0) - 1;
                         props.updateURLAndRedirect({ page: val });
                     }}
-                    style={{ marginRight: 10 }}>{"Previous"}</Button>
+                    style={{ marginRight: 10 }}><Left /></IconButton>
                 Page:
                  <TextField type="number"
                     variant="outlined"
+                    style={{marginLeft:5, height:30, width:70, marginRight:10}}
                     value={props.getParamFromQS("page")}
-                    style={{ width: 70, fontWeight: "normal", height: 33, marginLeft: 5, marginRight: 5 }}
                     onChange={(e) => {
                         let val = e.target.value;
                         if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1)
@@ -46,31 +51,37 @@ const Paging = (props) => {
 
                     }}></TextField>
                 of {totalPages}
-                <Button
+                <IconButton
                     size="small"
                     color="primary"
-                    variant="outlined"
+
                     disabled={props.getParamFromQS("page") === totalPages.toString()}
                     onClick={() => {
                         let val = parseInt(props.getParamFromQS("page"), 0) + 1;
                         props.updateURLAndRedirect({ page: val });
                     }}
-                    style={{ marginLeft: 10, marginRight: 10 }}>{"Next"}</Button>
-                <Button variant="outlined"
+                    style={{ marginLeft: 10, marginRight: 10 }}><Right /></IconButton>
+                <IconButton
                     size="small"
                     color="primary"
                     disabled={props.getParamFromQS("page") === totalPages.toString()}
                     onClick={() => {
                         props.updateURLAndRedirect({ page: totalPages });
                     }}
-                    style={{ marginRight: 10 }}>{"Last"}</Button>
-            </div>
-            <div style={{ fontSize: 12, color: "gray", fontWeight: "bold", marginTop: 10, flex: 1, textAlign: "right" }}>
-                <span style={{ marginLeft: 10 }}> Items per page: {props.itemsPerPage} </span>
+                    style={{ marginRight: 10 }}><Last /></IconButton>
+                 <span style={{ marginRight: 10 }}> Items per page: </span>
+                <Select
+                    value={itemsPerPage}
+                    onChange={(e) => {
+                        props.updateURLAndRedirect({ itemsPerPage: e.target.value }, true)
+                    }}
+
+                >
+                    {itemsPerPageOptions}
+                </Select>
                 <span style={{ marginLeft: 10 }}> Total items: {props.wholeDataLength} </span>
 
-            </div>
-        </div>
+         </div>
     )
 }
 

@@ -1,4 +1,3 @@
- 
 
  .circular{
     position:absolute;  
@@ -6,15 +5,10 @@
     top:0; bottom:0;
     margin:auto;
  }
-.product-list{
-    height:100%;
-    display: flex;
-    flex-direction: column;
-}
+ 
 .product-list-header {
     height: 50px;
-    width: 100%;
-    display: flex;
+     display: flex;
 }
 
 .react-dropdown {

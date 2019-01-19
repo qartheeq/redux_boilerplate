@@ -28,9 +28,8 @@ class ProductList extends Component {
         this.state = {
             unfinishedTasks: 0,
             openPriceDialog: false,
-            itemsPerPage: null,
             wholeDataLength: null,
-            items: []
+            items: [],
         }
 
         this.getParamFromQS = this.getParamFromQS.bind(this);
@@ -84,6 +83,8 @@ class ProductList extends Component {
                 return qs.usePriceFilter === "true";
             case 'sortValue':
                 return qs.sortValue || "lh";
+            case 'itemsPerPage':
+                return qs.itemsPerPage || "5";
             case 'directCategoryClick':
                 return qs.term === undefined;
             default:
@@ -103,6 +104,7 @@ class ProductList extends Component {
             category: this.getParamFromQS("category", props),
             term: this.getParamFromQS("term", props),
             page: this.getParamFromQS("page", props),
+            itemsPerPage: this.getParamFromQS("itemsPerPage", props),
             minPrice: this.getParamFromQS("minPrice", props),
             maxPrice: this.getParamFromQS("maxPrice", props),
             sortValue: this.getParamFromQS("sortValue", props),
@@ -112,7 +114,6 @@ class ProductList extends Component {
         this.setState((ps) => ({
             items: results.data,
             unfinishedTasks: ps.unfinishedTasks - 1,
-            itemsPerPage: results.itemsPerPage,
             wholeDataLength: results.totalLength
         }));
 
@@ -147,7 +148,7 @@ class ProductList extends Component {
     render() {
 
         return (
-            <div className="product-list">
+            <div>
                 <div className="product-list-header">
                     <div className="online-shop-title" style={{ flexGrow: 1 }}>{this.pageTitle()}</div>
                     <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
@@ -193,27 +194,24 @@ class ProductList extends Component {
                         </Select>
                     </div>
                 </div>
-                <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{ flex: 1  }}>
-                        {this.state.unfinishedTasks !== 0 ?
-                            <CircularProgress className="circular" /> :
-                            this.state.items.map(item => {
-                                return (
-                                    <Item
-                                        key={item.id}
-                                        item={item}
-                                    />
-                                )
-                            })}
-                    </div>
-                    {this.state.unfinishedTasks === 0 &&
-                        <Paging
-                            getParamFromQS={this.getParamFromQS}
-                            updateURLAndRedirect={this.updateURLAndRedirect}
-                            itemsPerPage={this.state.itemsPerPage}
-                            wholeDataLength={this.state.wholeDataLength}
-                        />}
+                <div  >
+                    {this.state.unfinishedTasks !== 0 ?
+                        <CircularProgress className="circular" /> :
+                        this.state.items.map(item => {
+                            return (
+                                <Item
+                                    key={item.id}
+                                    item={item}
+                                />
+                            )
+                        })}
                 </div>
+                {this.state.unfinishedTasks === 0 &&
+                    <Paging
+                        getParamFromQS={this.getParamFromQS}
+                        updateURLAndRedirect={this.updateURLAndRedirect}
+                        wholeDataLength={this.state.wholeDataLength}
+                    />}
                 <PriceDialog
                     open={this.state.openPriceDialog}
                     min={this.getParamFromQS("minPrice")}
@@ -228,7 +226,6 @@ class ProductList extends Component {
                 />
 
             </div>
-
 
         );
     }
