@@ -3,8 +3,9 @@
 }
 
 .app {
-  height: 100%;
+  min-height: 100%;
   flex-direction: column;
+  overflow: auto;
   display: flex;
   min-width:900px;
 }
@@ -27,7 +28,6 @@ body {
   position: relative;
   flex: 1;
   padding: 10px;
-  overflow:auto;
  }
 
 .online-shop-title {

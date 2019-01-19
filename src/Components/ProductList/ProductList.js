@@ -148,7 +148,7 @@ class ProductList extends Component {
     render() {
 
         return (
-            <div>
+            <div style={{ display: "flex", flexDirection: "column", height:"100%" }}>
                 <div className="product-list-header">
                     <div className="online-shop-title" style={{ flexGrow: 1 }}>{this.pageTitle()}</div>
                     <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
@@ -194,7 +194,7 @@ class ProductList extends Component {
                         </Select>
                     </div>
                 </div>
-                <div  >
+                <div style={{flex:1}} >
                     {this.state.unfinishedTasks !== 0 ?
                         <CircularProgress className="circular" /> :
                         this.state.items.map(item => {
