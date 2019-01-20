@@ -16,13 +16,12 @@ const generateMenuModel = (categories) => {
     let menuModel = [
         { type: "title", name: "Main", id: 0 },
         { type: "item", name: "Home page", url: "/", parentID: 0, id: 1 },
-        { type: "item", name: "About us", url: "/about", parentID: 0, id: 2 },
-        { type: "title", name: "Product categories", id: 3 },
+        { type: "title", name: "Product categories", id: 2 },
     ];
 
     menuModel = menuModel.concat(categories.map((x, i) => {
         return {
-            name: x, url: "/search/?category=" + x, id: 4 + i, type: "item", parentID: 3
+            name: x, url: "/search/?category=" + x, id: 4 + i, type: "item", parentID: 2
         }
     }))
 
