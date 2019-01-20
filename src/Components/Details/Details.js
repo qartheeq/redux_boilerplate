@@ -64,7 +64,7 @@ class ConnectedDetails extends Component {
         return (
             <div className="details-page">
 
-                <div style={{fontWeight:"bold", fontSize:18, color:"gray", marginRight:15, lineHeight: "50px",  height: 50, borderRadius: "5px" }}>
+                <div style={{ color:"#504F5A",fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     {this.state.item.name}
                 </div>
                 <div className="details-page-content">
@@ -84,14 +84,14 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{fontWeight:"bold", fontSize:18, color:"gray", marginRight:15, lineHeight: "50px",  height: 50, borderRadius: "5px" }}>
+                <div style={{color:"#504F5A", fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     Description
                  </div>
 
-                <div style={{color:"gray", marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+                <div style={{ color: "gray", marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
 
 
-                <div style={{fontWeight:"bold", marginTop:10, fontSize:18, color:"gray", marginRight:15, lineHeight: "50px",  height: 50, borderRadius: "5px" }}>
+                <div style={{ color:"#504F5A", marginTop: 10, fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     Related Items
                  </div>
 
@@ -101,7 +101,7 @@ class ConnectedDetails extends Component {
                     marginTop: 5,
                     width: "100%",
                 }} cols={3}>
-                    {this.state.relatedItems.length === 0 ? <span style={{fontSize: 13, color:"gray", marginLeft: 10  }}>Not available</span> :
+                    {this.state.relatedItems.length === 0 ? <span style={{ fontSize: 13, color: "gray", marginLeft: 10 }}>Not available</span> :
                         this.state.relatedItems.map(item => (
                             <span key={item.id} style={{ marginLeft: 50, marginRight: 50 }}>
                                 <Item item={item} />

@@ -29,8 +29,8 @@ class ConnectedLogin extends Component {
 
         return (
             <div className="login-container">
-                <div style={{display:"flex", flexDirection:"column"}}>
-                    <div style={{ marginBottom: 50, fontSize: 26, textAlign: "center", color: "gray" }}> Log in </div>
+                <div style={{ height: 200, width: 200, display: "flex", flexDirection: "column" }}>
+                    <div style={{ color:"#504F5A", marginBottom: 50, fontSize: 26, textAlign: "center" }}> Log in </div>
                     <TextField
                         value={this.state.userName}
                         placeholder="User name"

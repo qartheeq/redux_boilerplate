@@ -20,7 +20,7 @@ const Paging = (props) => {
 
 
     return (
-        <div style={{display:"flex", marginBottom:5, marginTop:15, height:60, fontSize:13, color:"gray", alignItems:"center"}} >
+        <div style={{display:"flex", marginBottom:10, marginTop:15, height:60, fontSize:13, color:"gray", alignItems:"center"}} >
                  <IconButton
                     size="small"
                     color="primary"

@@ -52,7 +52,7 @@ class ConnectedOrder extends Component {
                     </TableBody>
                 </Table>
 
-                <div style={{ marginLeft: 5, marginTop: 50, fontSize: 22 }}>Total price: {totalPrice} $</div>
+                <div style={{ color:"#504F5A", marginLeft: 5, marginTop: 50, fontSize: 22 }}>Total price: {totalPrice} $</div>
                 <Button
                     color="primary"
                     variant="outlined"

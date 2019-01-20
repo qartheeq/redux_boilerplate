@@ -37,7 +37,7 @@ class ConnectedCartDialog extends Component {
 
                     <div style={{ display: "flex", marginTop: 25 }}>
                         <ShoppingCartIcon fontSize="large" style={{ marginLeft: 10, color: "#4282ad" }} />
-                        <div style={{ marginTop: 10, marginLeft: 10, fontSize: 16, color: "gray" }}>Products in cart  </div>
+                        <div style={{ color:"#504F5A",marginTop: 10, marginLeft: 10, fontSize: 16  }}>Products in cart  </div>
                     </div>
 
                     <div style={{ minWidth: 300, maxHeight: 400, overflow: "auto" }}>
@@ -59,7 +59,7 @@ class ConnectedCartDialog extends Component {
                     </div>
 
                     <div style={{ marginTop: 20 }}>
-                        <div style={{ float: "left", margin: 10, marginTop: 20, fontSize: 20, color: "gray", fontWeight: "bold" }}> Total Price: {totalPrice} $</div>
+                        <div style={{ color:"#504F5A", float: "left", margin: 10, marginTop: 20, fontSize: 20  }}> Total Price: {totalPrice} $</div>
                         <Button style={{ float: "right", margin: 20 }}
                             variant="outlined"
                             color="primary"

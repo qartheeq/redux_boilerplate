@@ -5,13 +5,17 @@ import queryString from 'query-string'
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
 import { categoryNames } from "../../Data"
-
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+ 
 
 const mapStateToProps = state => {
     return { showMenu: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
 
-// Generates menu data from input.
+// The menu UI is created from some data.
+// This function creates such data.
+// Should be noted both data and menu are pretty ad hoc.
 const generateMenuModel = (categories) => {
     let menuModel = [
         { type: "title", name: "Main", id: 0 },
@@ -59,6 +63,7 @@ class ConnectedMenu extends Component {
                         // For a menu item to be visible, it must either be a title,
                         // or its parent must be in expanded state and plus user must be allowed to see it.     
                         return (y.parentID === undefined || (this.state.expanded[y.parentID] && (!y.protected || this.props.loggedInUser)));
+                    
                     }).map((x, i) => {
 
                         if (x.type === "item") {
@@ -87,11 +92,12 @@ class ConnectedMenu extends Component {
 
                                     }}
                                     activeStyle={{
-                                         color: "#4282ad",
+                                        color: "#4282ad",
                                         textDecoration: "underline"
                                     }}
                                 >
                                     <div className="menuItem">{x.name}</div>
+
                                 </NavLink></div>);
                         } else if (x.type === "title") {
                             return (
@@ -109,12 +115,12 @@ class ConnectedMenu extends Component {
                                             }
                                         })
                                     }}
-                                    style={{ padding:5, height: 20, marginLeft: 10, marginTop: 10, cursor: "pointer", fontSize: 14 }}>
-                                    {this.state.expanded[x.id] ?
-                                        <i className="far fa-minus-square" style={{ marginRight: 5 }}></i> :
-                                        <i className="far fa-plus-square" style={{ marginRight: 5 }}></i>
-                                    }
-                                    <span>{x.name}</span>
+                                    style={{}}>
+
+                                    <div style={{ padding: 10, height: 20, fontSize:14, display: "flex", alignItems: "center", cursor: "pointer" }}>
+                                        <span style={{ flex: 1 }}>{x.name}</span>
+                                        {this.state.expanded[x.id] ? <ExpandLess   /> : <ExpandMore   />}
+                                    </div>
 
                                 </div>);
                         }
