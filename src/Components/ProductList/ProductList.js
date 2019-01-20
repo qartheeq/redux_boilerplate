@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 
 const sortOptions = [<MenuItem key={"lh"} value={"lh"}>Sort by price: low to high</MenuItem>, <MenuItem key={"hl"} value={"hl"}>Sort by price: high to low</MenuItem>]
 
-// This component is responsible for retrieving the products it needs to show.
+// This component retrieves the products it needs to show.
 // It determines the kind of products it needs to show from query string.
 // It checks the query string on first render and on every props change.
 class ProductList extends Component {
@@ -48,8 +48,8 @@ class ProductList extends Component {
         return query;
     }
 
-    // As noted this component determines which products to load from query string.
-    // This function is used to update the query string with new values.
+    // This function is used to update the query string with new values
+    // and redirect to new URL.
     updateURLAndRedirect(newValues, restartPaging) {
 
         let currentQs = queryString.parse(this.props.location.search);
@@ -63,8 +63,7 @@ class ProductList extends Component {
 
     }
 
-    // Extract value of parameter with a given name from query string.
-    // The query string itself is contained in passed props object.
+    // Extract value of certain parameter from query string.
     getParamFromQS(name, props = this.props) {
         let qs = queryString.parse(props.location.search);
 
