@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { connect } from "react-redux";
-import { addItemInCart } from "../../Redux/Actions"
-import { withRouter } from "react-router-dom";
 import { NavLink } from 'react-router-dom'
 import "./Footer.css"
 
