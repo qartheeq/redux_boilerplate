@@ -148,7 +148,7 @@ class ProductList extends Component {
     render() {
 
         return (
-            <div style={{ display: "flex", flexDirection: "column", height:"100%" }}>
+            <div style={{ display: "flex", padding:10, flexDirection: "column", height:"100%" }}>
                 <div className="product-list-header">
                     <div className="online-shop-title" style={{ flexGrow: 1 }}>{this.pageTitle()}</div>
                     <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>

@@ -7,7 +7,7 @@ import { addItemInCart } from "../../Redux/Actions"
 import Api from "../../Api"
 import Item from "../Item/Item";
 import { connect } from "react-redux";
- 
+
 var Remarkable = require('remarkable');
 
 
@@ -64,12 +64,12 @@ class ConnectedDetails extends Component {
         return (
             <div className="details-page">
 
-                <div style={{ lineHeight: "50px", padding: 5, height: 50, border: "1px solid #babdc1", backgroundColor: "#FAFAFB", color: "black" }}>
+                <div style={{fontWeight:"bold", fontSize:18, color:"gray", marginRight:15, lineHeight: "50px",  height: 50, borderRadius: "5px" }}>
                     {this.state.item.name}
                 </div>
                 <div className="details-page-content">
                     <div style={{ margin: 5, width: 290, height: 290, padding: 2, border: "1px solid lightgray", borderRadius: 5 }}>
-                        <img alt={this.state.item.name} style={{ objectFit: "contain", height: "100%", width: "100%"  }} src={this.state.item.imageURL}   />
+                        <img alt={this.state.item.name} style={{ objectFit: "contain", height: "100%", width: "100%" }} src={this.state.item.imageURL} />
                     </div>
                     <div style={{ flex: 1, marginLeft: 30, display: "flex", flexDirection: "column" }}>
                         <div style={{ fontSize: 18, marginTop: 10, color: "#4282ad" }}>Price: {this.state.item.price} $</div>
@@ -84,24 +84,24 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{ lineHeight: "50px", padding: 5, height: 50, border: "1px solid #babdc1", backgroundColor: "#FAFAFB", color: "black" }}>
+                <div style={{fontWeight:"bold", fontSize:18, color:"gray", marginRight:15, lineHeight: "50px",  height: 50, borderRadius: "5px" }}>
                     Description
                  </div>
 
-                <div style={{ marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 14, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+                <div style={{color:"gray", marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
 
 
-                <div style={{ marginTop: 20, lineHeight: "50px", padding: 5, height: 50, border: "1px solid #babdc1", backgroundColor: "#FAFAFB", color: "black" }}>
+                <div style={{fontWeight:"bold", marginTop:10, fontSize:18, color:"gray", marginRight:15, lineHeight: "50px",  height: 50, borderRadius: "5px" }}>
                     Related Items
                  </div>
 
                 <div style={{
                     overflow: "auto",
                     whiteSpace: "nowrap",
-                    marginTop: 20,
+                    marginTop: 5,
                     width: "100%",
                 }} cols={3}>
-                    {this.state.relatedItems.length === 0 ? <span style={{ marginLeft: 10, fontSize: 14 }}>Not available</span> :
+                    {this.state.relatedItems.length === 0 ? <span style={{fontSize: 13, color:"gray", marginLeft: 10  }}>Not available</span> :
                         this.state.relatedItems.map(item => (
                             <span key={item.id} style={{ marginLeft: 50, marginRight: 50 }}>
                                 <Item item={item} />

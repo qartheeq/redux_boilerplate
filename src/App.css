@@ -7,7 +7,7 @@
   flex-direction: column;
   overflow: auto;
   display: flex;
-  min-width:900px;
+  min-width: 900px;
 }
 
 html, #root, body {
@@ -21,19 +21,16 @@ body {
 
 .app-body {
   display: flex;
-  flex:1;
+  flex: 1;
 }
 
 .content {
   position: relative;
   flex: 1;
-  padding: 10px;
- }
+}
 
 .online-shop-title {
   font-size: 26px;
   margin: 5px;
   color: gray;
 }
-
- 

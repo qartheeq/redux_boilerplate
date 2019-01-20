@@ -10,7 +10,7 @@ class Footer extends Component {
                 <div>
                     <div style={{ fontWeight: "bold", marginBottom: 10, color: "gray" }}>Buy</div>
                     <NavLink
-                        to={"/registration"}
+                        to={"/payment"}
                         exact
                         style={{
                             textDecoration: 'none',
@@ -22,11 +22,11 @@ class Footer extends Component {
                             textDecoration: "underline"
                         }}
                     >
-                        <div className="footerItem">Registration</div>
+                        <div className="footerItem">Terms of payment</div>
 
                     </NavLink>
                     <NavLink
-                        to={"/stores"}
+                        to={"/delivery"}
                         exact
                         style={{
                             textDecoration: 'none',
@@ -38,7 +38,7 @@ class Footer extends Component {
                             textDecoration: "underline"
                         }}
                     >
-                        <div className="footerItem">Stores</div>
+                        <div className="footerItem">Delivery</div>
 
                     </NavLink>
                 </div>
