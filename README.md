@@ -9,7 +9,7 @@ Redux, React router, and React Material UI library.
 Some features include:
 - Search products using keyword and/or category
 - Quick access to all products in given category (accessible from menu on the left)
-- Filter products using price, sort products
+- Filter and sort products using price
 - User can add products to shopping cart, and do a checkout (proceeds to a page which can be accessed only when logged in)
 
 
