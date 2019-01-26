@@ -7,6 +7,7 @@ import { addItemInCart } from "../../Redux/Actions"
 import Api from "../../Api"
 import Item from "../Item/Item";
 import { connect } from "react-redux";
+import TextField from '@material-ui/core/TextField';
 
 var Remarkable = require('remarkable');
 
@@ -15,6 +16,7 @@ class ConnectedDetails extends Component {
 
     state = {
         relatedItems: [],
+        quantity: "1",
         item: null,
         unfinishedTasks: 0,
     }
@@ -64,7 +66,7 @@ class ConnectedDetails extends Component {
         return (
             <div className="details-page">
 
-                <div style={{ color:"#504F5A",fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ color: "#504F5A", fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     {this.state.item.name}
                 </div>
                 <div className="details-page-content">
@@ -72,11 +74,21 @@ class ConnectedDetails extends Component {
                         <img alt={this.state.item.name} style={{ objectFit: "contain", height: "100%", width: "100%" }} src={this.state.item.imageURL} />
                     </div>
                     <div style={{ flex: 1, marginLeft: 30, display: "flex", flexDirection: "column" }}>
-                        <div style={{ fontSize: 18, marginTop: 10, color: "#4282ad" }}>Price: {this.state.item.price} $</div>
-                        {this.state.item.popular && <span style={{ marginTop: 5, fontSize: 14 }}>Popular product</span>}
-                        <Button style={{ width: 200, marginTop: 20 }} color="primary" variant="outlined"
+                        <div style={{ fontSize: 18, marginTop: 10 }}>Price: {this.state.item.price} $</div>
+                        {this.state.item.popular && <span style={{ color: "#1a9349", fontWeight: "bold", marginTop: 5, fontSize: 14 }}>(Popular product)</span>}
+
+                        <TextField type="number"
+                            value={this.state.quantity}
+                            style={{ marginTop: 20, marginBottom: 20, width: 50 }}
+                            label="Quantity"
+                            onChange={(e) => {
+                                let val = parseInt(e.target.value);
+                                if (val < 1 || val > 10) return;
+                                this.setState({ quantity: val.toString() })
+                            }}></TextField>
+                        <Button style={{ width: 200, marginTop: 20 }} color="primary" variant="contained"
                             onClick={() => {
-                                this.props.dispatch(addItemInCart({ ...this.state.item, quantity: 1 }));
+                                this.props.dispatch(addItemInCart({ ...this.state.item, quantity: parseInt(this.state.quantity) }));
                             }}>
                             Add to Cart  <AddShoppingCartIcon style={{ marginLeft: 5 }} />
                         </Button>
@@ -84,14 +96,14 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{color:"#504F5A", fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ color: "#504F5A", fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     Description
                  </div>
 
                 <div style={{ color: "gray", marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
 
 
-                <div style={{ color:"#504F5A", marginTop: 10, fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ color: "#504F5A", marginTop: 10, fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     Related Items
                  </div>
 

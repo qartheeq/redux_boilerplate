@@ -15,23 +15,23 @@ const rootReducer = (state = initialState, action) => {
     switch (action.type) {
        
         case CONSTANTS.ADD_ITEM_IN_CART: {
-
-            // User wants to add item in cart, let's first find if such item is already in cart. 
+ 
             let index = state.cartItems.findIndex(x => x.id === action.payload.id);
 
+            // Is the item user wants to add already in the cart?
             if (index !== -1) {
 
-                // Item is there, let's just increase its quantity 
+                // Yes, update the quantity.
                 let cloneCartItems = [...state.cartItems];
                 cloneCartItems[index] = {
                     ...cloneCartItems[index],
-                    quantity: state.cartItems[index].quantity + 1
+                    quantity: state.cartItems[index].quantity + action.payload.quantity
                 };
 
                 return { ...state, cartItems: cloneCartItems }
             }
 
-            // Item is not there, add a new item. 
+            // No, add a new item. 
             return { ...state, cartItems: state.cartItems.concat(action.payload) }
 
         }
@@ -48,7 +48,7 @@ const rootReducer = (state = initialState, action) => {
         case CONSTANTS.UPDATE_CART_ITEM_QUANTITY: {
             let index = state.cartItems.findIndex(x => x.id === action.payload.id);
 
-            // Update quantity of certain item in cart 
+            // User wants to update quantity of existing item.
             if (index !== -1) {
                 let cloneCartItems = [...state.cartItems];
                 cloneCartItems[index] = {
@@ -59,6 +59,7 @@ const rootReducer = (state = initialState, action) => {
                 return { ...state, cartItems: cloneCartItems }
             }
 
+            // If we couldn't find such item, do nothing.
             return state;
         }
         default:

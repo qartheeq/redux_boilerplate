@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 
 class ConnectedItem extends Component {
     render() {
@@ -22,20 +23,28 @@ class ConnectedItem extends Component {
                         style={{ height: 140 }}
                         image={this.props.item.imageURL}
                     />
-                    <CardContent style={{ height: 50 }}>
-                        <div style={{ margin: 5, color: "gray", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{this.props.item.name}</div>
+                    <CardContent style={{ height: 60 }}>
+                        <div style={{ margin: 5, fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{this.props.item.name}</div>
                         <div style={{ margin: 5 }}>Price: {this.props.item.price} $</div>
-                        <div style={{ color: "#4282ad", margin: 5 }}>{this.props.item.popular && "Popular"}</div>
-
+                        <div style={{ color: "#1a9349", fontWeight: "bold", margin: 5 }}>{this.props.item.popular && "Popular"}</div>
                     </CardContent>
                 </CardActionArea>
-                <CardActions style={{ paddingBottom: 25, position: "relative" }}>
+                <CardActions style={{ paddingTop: 15, position: "relative" }}>
+                    <Button
+                        size="small"
+                        style={{ position: "absolute", left: 10 }}
+                        onClick={() => {
+                            this.props.history.push('/details/' + this.props.item.id);
+                        }}> Details</Button>
                     <Tooltip title="Add to cart">
-                        <IconButton style={{ position: "absolute", right: 0, bottom: -15 }} onClick={(e) => {
-                            e.stopPropagation();
-                            this.props.dispatch(addItemInCart({ ...this.props.item, quantity: 1 }));
-                        }} color="primary" aria-label="Add to shopping cart">
-                            <AddShoppingCartIcon />
+                        <IconButton
+                            style={{ position: "absolute", right: 0 }}
+                            size="small"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                this.props.dispatch(addItemInCart({ ...this.props.item, quantity: 1 }));
+                            }} color="primary" aria-label="Add to shopping cart">
+                            <AddShoppingCartIcon size="small" />
                         </IconButton>
                     </Tooltip>
                 </CardActions>
